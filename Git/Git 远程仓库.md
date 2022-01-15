@@ -14,7 +14,11 @@ ssh-keygen -t rsa -b 4096 -C "kurja0403@gmail.com"
 
 #### 2. 上传代码
 
+```bash
 git remote add origin git@github.com:KurjaScript/Typora.git
 
+git push -u origin master
 
+
+```
 
