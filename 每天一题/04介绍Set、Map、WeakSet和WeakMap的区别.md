@@ -378,4 +378,38 @@ map.forEach(function(value, key, map){
   jsonToStrMap('{"name": "An", "des": "JS"}') //Map {"name" => "An", "des" => "JS"}
   ```
 
+#### 4. WeakMap
+
+WeakMap对象是一组键值对的集合，其中的**键是弱引用对象，而值可以是任意**。
+
+**注意，WeakMap弱引用的只是键名，而不是键值。键值依然是正常引用。**
+
+WeakMap中，每个键对自己所引用对象的引用都是弱引用，在没有其他引用和该引用同一对象，这个对象将会被垃圾回收(相应的key则变成无效)，所以，WeakMap的key是不可枚举的。
+
+属性：
+
+- constructor：构造函数
+
+方法：
+
+- has(key): 判断是否有key关联对象；
+
+- get(key): 返回key关联对象(没有则返回undefined)；
+
+- set(key): 设置一组key关联对象；
+
+- delete(key)：移除 key 的关联对象
+
+  ```js
+  let myElement = document.getElementById('logo');
+  let myWeakmap = new WeakMap();
+  
+  myWeakmap.set(myElement, {timesClicked: 0});
+  
+  myElement.addEventListener('click', function() {
+    let logoData = myWeakmap.get(myElement);
+    logoData.timesClicked++;
+  }, false);
+  ```
+
   
