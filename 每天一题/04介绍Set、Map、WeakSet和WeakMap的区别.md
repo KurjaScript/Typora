@@ -135,7 +135,7 @@ let arr = [1, 2, 3, 2, 1, 1]
       ```
 
 
-#### WeakSet
+#### 2.WeakSet
 
 WeakSet对象允许你将**弱引用对象**储存在一个集合中
 
@@ -190,3 +190,192 @@ WeakSet对象允许你将**弱引用对象**储存在一个集合中
   ```
 
 #### 3. 字典(Map)
+
+##### 集合与字典的异同：
+
+- 共同点：集合、字典可以储存不重复的值 ；
+- 不同点：集合是以[value, value]的形式储存元素，字典是以[key, value]的形式储存。
+
+```js
+const m = new Map()
+const o = {p: 'haha'}
+m.set(o, 'content')
+m.get(o) //content
+m.has(o) //true
+m.delete(o)
+m.has(o) //true
+```
+
+**任何具有Iterator接口、且每个成员都是一个双元素的数组的数据结构都可以被当作Map构造函数的参数**，例如：
+
+```js
+const set = new Set([
+	['foo', 1],
+    ['bar', 2]
+]);
+const m1 = new Map(set);
+m1.get('foo') // 1
+
+const m2 = new Map([['baz', 3]]);
+const m3 = new Map(m2);
+m3.get('baz') //3
+```
+
+如果读取一个未知的键，则返回undefined
+
+```js
+new Map().get('askbdk') // undefined
+```
+
+注意，只有对同一对象的引用，Map结构才将其视为同一个键。这一点要非常小心。
+
+```js
+const map = new Map();
+
+map.set(['a'],555);
+map.get(['a']) //undefined
+```
+
+上面代码的`set`和`get`方法，表面上针对同一个键，但实际上这是两个值，内存地址是不一样的，因此`get`方法无法读取该键，返回`undefined`。
+
+由此可知，Map的键实际上是跟内存地址绑定的，只要内存地址不一样，就视为两个键，这就解决了**同名属性碰撞**(clash)的问题，我们扩展别人的库的时候，如果使用对象作为键名，就不用担心自己的属性与原作者的属性同名。
+
+##### Map的属性及方法：
+
+属性：
+
+- constructor：构造函数
+
+- size：返回字典中所包含的元素个数
+
+  ```js
+  const map = new Map([
+      ['name', 'An']
+      ['des', 'JS']
+  ])
+  map.size // 2
+  ```
+
+操作方法：
+
+- set(key, value): 向字典中添加新元素；
+- get(key): 通过键查找特定的数值并返回；
+- has(key): 判断字典中是否存在key；
+- delete(key): 通过键key从字典中移除对应的数据；
+- clear(): 将这个字典中的所有元素删除。
+
+遍历方法：
+
+- keys(): 将字典中包含的所有键名以迭代器的形式返回；
+
+- values(): 将字典中包含的所有数值以迭代器的形式返回；
+
+- entries(): 返回所有成员的迭代器；
+
+- forEach(): 遍历字典所有成员
+
+  ```js
+  const map = new Map([
+  	['name', 'An'],
+      ['des', 'JS']
+  ]);
+  console.log(map.entries())  //MapIterator {"name" => "An", "des" => "JS"}
+  console.log(map.keys())  //MaoIterator {"name", "des"}
+  ```
+
+Map结构的默认遍历器接口(Symbol.iterator属性)，就是entries方法。
+
+```js
+map[Symbol.iterator] === map.entries  //true
+```
+
+Map结构转为数组结构，比较快速的方法是使用扩展运算符(`...`)
+
+对于forEach，看一个例子
+
+```js
+const reporter = {
+    report: function(key, value){
+        console.log("Key: %s, Value: %s",key, value);
+    }
+};
+
+let map = new Map([
+    ['name', 'An'],
+    ['des', 'JS']
+])
+map.forEach(function(value, key, map){
+    this.report(key, value);
+}, reporter);
+//Key: name, Value: An
+//Key: des, Value: JS
+```
+
+在这个例子中，forEach方法的回调函数的this，就指向reporter
+
+##### 与其他数据结构的相互转换
+
+- ###### Map转Array
+
+  ```js
+  const map = new Map([[1, 1], [2, 2], [3, 3]])
+  console.log([...map]) // [[1, 1], [2, 2], [3, 3]]
+  ```
+
+- ###### Array转Map
+
+  ```js
+  const map = new Map([[1, 1], [2, 2], [3, 3]])
+  console.log(map) //Map {1 => 1, 2 => 2, 3 => 3}
+  ```
+
+- ###### Map转Object
+
+  因为Object的键名都为字符串，而Map的键名为对象，所以转换的时候会把非字符串键名转换为字符串的键名。
+
+  ```js
+  function mapToObj(map) {
+      let obj = Object.create(null)
+      for (let [key, value] of map) {
+          obj[key] = value
+      }
+      return obj
+  }
+  const map = new Map().set('name', 'An').set('des', 'JS')
+  mapToObj(map) //{name: "An", des: "JS"}
+  ```
+
+- ###### Object转Map
+
+  ```js
+  function objToMap(obj){
+      let map = new Map()
+      for (let key of Object.keys(obj)) {
+          map.set(key, obj[key])
+      }
+      return map
+  }
+  objToMap({'name': 'An', 'des': 'JS'}) //Map {"name" => "An", "des" => "JS"}
+  ```
+
+- ###### Map转JSON
+
+  ```js
+  function mapToJson(map){
+      return JSON.stringify([...map])
+  }
+  
+  let map = new Map().set('name', 'An').set('des', 'JS')
+  mapToJson(map) //[["name","An"], ["des","JS"]]
+  ```
+
+- ###### JSON转Map
+
+  ```js
+  function jsonToMap(jsonStr){
+      return objToMap(JSON.parse(jsonStr)); //先将JSON转化为Object，再转化为Map
+  }
+  jsonToStrMap('{"name": "An", "des": "JS"}') //Map {"name" => "An", "des" => "JS"}
+  ```
+
+  
