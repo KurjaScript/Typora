@@ -436,3 +436,36 @@ WeakMap中，每个键对自己所引用对象的引用都是弱引用，在没�
   - 只接受对象作为键名(null除外)，不接受其他类型的值作为键名；
   - 键名是弱引用，键值可以是任意的，键名所指向的对象可以被垃圾回收，此时键名是无效的；
   - 不能遍历，方法有get、set、has、delete。
+
+#### 6. 扩展：Object与Set、Map
+
+- ##### Object与Set
+
+  ```js
+  //Object
+  const properties1 = {
+      'width': 1,
+      'height': 1
+  }
+  console.log(properties1['width']?true: false) //true
+  
+  //Set
+  const properties2 = new Set()
+  properties2.add('width')
+  properties2.add('height')
+  console.log(properties2.has('width')) //true
+  ```
+
+- ##### Object与Map
+
+  **JS中的对象(Object)，本质上是键值对的集合(hash结构)**
+
+  ```js
+  const data = {};
+  const element = document.getElementsByClassName('App');
+  
+  data[element] = 'metadata';
+  console.log(data['[object HTMLCollection]']) //"metadata"
+  ```
+
+  但当一个DOM节点作为对象data的键值，对象会 被自动转化为字符串[Object HTMLCollection], 所以说， Object结构提供了**字符串-值**对应，Map提供了**值-值**的对应。
