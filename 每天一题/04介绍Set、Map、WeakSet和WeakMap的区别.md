@@ -134,4 +134,59 @@ let arr = [1, 2, 3, 2, 1, 1]
       let difference = new Set([...set1].filter(value => !set2.has(value)))
       ```
 
-      
+
+#### WeakSet
+
+WeakSet对象允许你将**弱引用对象**储存在一个集合中
+
+**弱引用与强引用相对，是指不能确保其引用的对象不会被垃圾回收器回收的引用。**
+
+##### WeakSet与Set的区别：
+
+- WeakSet只能储存对象引用，不能存放值，而Set对象都可以
+- WeakSet对象中储存的对象值都是弱引用，**即垃圾回收机制不考虑WeakSet对象的应用，如果没有其他变量或属性引用这个对象值，则这个对象将会被垃圾回收掉**(不考虑该对象还存于WeakSet中)，所以，WeakSet对象里有多少个成员元素，取决于垃圾回收机制有没有运行，运行前后成员个数可能不一致，遍历结束之后，有的成员可能取不到了(被垃圾回收了)，WeakSet对象是无法被遍历的(ES6规定WeakSet不可遍历)，也没有办法拿到它包含的所有元素。
+
+属性：
+
+- constructor: 构造函数，任何一个具有Iterable接口的对象，都可以作参数
+
+  ```js
+  const arr = [[1, 2], [3, 4]]
+  const weakset = new WeakSet(arr)
+  console.log(weakset)
+  ```
+
+  ![image-20220126141043762](C:\Users\GunKing\AppData\Roaming\Typora\typora-user-images\image-20220126141043762.png)
+
+然而我在浏览器控制台的调试结果是这样的，没有顺序打印，何故？然而，用其他数据测试则是正常
+
+![image-20220126141007136](C:\Users\GunKing\AppData\Roaming\Typora\typora-user-images\image-20220126141007136.png)
+
+![image-20220126141114833](C:\Users\GunKing\AppData\Roaming\Typora\typora-user-images\image-20220126141114833.png)
+
+方法：
+
+- add(value): 在WeakSet对象中添加一个元素value；
+
+- has(value): 判断WeakSet对象中是否包含value；
+
+- delete(value): 删除元素value；
+
+- clear(): 清空所有元素，**注意该方法已废除**
+
+  ```js
+  let ws = new WeakSet()
+  let obj = {}
+  let foo = {}
+  
+  ws.add(window)
+  ws.add(obj)
+  
+  ws.has(window) //true
+  ws.has(foo) //false
+  
+  ws.delete(window) //true
+  ws.has(window) //false
+  ```
+
+#### 3. 字典(Map)
