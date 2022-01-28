@@ -156,4 +156,5 @@ patch(url[, data[, config]])
 
 axios会把这些方法中的config与创建实例时指定的config合并到一起使用
 
-### 
+[未完](https://juejin.cn/post/6884561821127491597)
+
