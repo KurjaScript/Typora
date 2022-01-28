@@ -126,3 +126,34 @@ axios.post('/user', {
 ```
 
 其中data是后端返回的数据，**一般我们也只需要关注response中的data字段就行**
+
+### 创建实例
+
+可以使用自定义配置新建一个axios实例axios.create([config])
+
+```js
+const instance = axios.create({
+    baseURL: 'https://some-domain.com/api/',
+    timeout: 1000,
+    headers: {'X-Custom-Header': 'foobar'}
+})
+```
+
+创建的实例中的axios() api 改为了request() api，使用方式是一样的，其他如请求别名等函数，都没有改变
+
+以下是实例所拥有的方法:
+
+```js
+request(config)
+get(url[,config])
+delete(url[,config])
+header(url[,config])
+optoions(url[,config])
+post(url[, data[, config]])
+put(url[, data[, config]])
+patch(url[, data[, config]])
+```
+
+axios会把这些方法中的config与创建实例时指定的config合并到一起使用
+
+### 
