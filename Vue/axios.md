@@ -75,3 +75,32 @@ axios('/url/12345');
 
 个人观点：对于Axios，只需掌握axios() api的基本使用就可以了
 
+### 请求别名的使用
+
+axios还为每一个HTTP的方法提供与之对应的方法来发送get请求：
+
+```js
+// 为给定ID的user创建请求
+axios.get('/user?ID=12345').then(function(response){
+    console.log(response);
+}).catch(function (error){
+    console.log(error);
+})
+```
+
+```js
+// 发送post请求
+axios.post('/user', {
+    firstName: '云柱',
+    lastName: '火柱',
+}).then(function (response){
+    console.log(response)
+}).catch(function(error) {
+    console.log(error);
+})
+```
+
+其他的方法使用类似，略
+
+注意：在使用别名方法时，url、method、data这些属性都不必在配置中指定。
+
