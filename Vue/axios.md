@@ -104,3 +104,25 @@ axios.post('/user', {
 
 注意：在使用别名方法时，url、method、data这些属性都不必在配置中指定。
 
+### 响应结构
+
+通过axios发出请求的响应结果中，axios会加入一些字段，如下：
+
+```js
+{
+    // `data` 由服务器提供的响应
+    data: {},
+    // `status` 来自服务器响应的HTTP状态码
+    status: 200,
+    // `statusText` 来自服务器响应的HTTP状态信息
+    statusText: 'OK',
+    // `headers` 服务器响应头
+    headers: {},
+    // `config` 是为请求提供的配置信息
+    config: {},
+    // `request` 是生成此响应的请求，(在重定向中)它是node.js中的最后一个ClientRequest实例；XMLHttpRequest 实例是浏览器
+    request: {}
+}
+```
+
+其中data是后端返回的数据，**一般我们也只需要关注response中的data字段就行**
