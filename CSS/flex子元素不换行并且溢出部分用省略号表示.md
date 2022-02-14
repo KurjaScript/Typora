@@ -4,11 +4,12 @@
 .father {
     display: flex;
     flex-direction: row;
-    white-space: nowrap; //不换行
+    flex-wrap: nowrap;
+    //white-space: nowrap; //不换行
     .child {
         width: 120px;
         overflow: hidden;
-        text-overflow: ellipsis; //s
+        text-overflow: ellipsis; //省略号
     }
 }
 ```
