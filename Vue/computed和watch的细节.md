@@ -43,7 +43,7 @@ data: {
     firstName: '云柱',
     lastName: '火柱'，
     fullName: '云柱 火柱'
-}
+},
 watch: {
     firstName: function(val){
         this.fullName = val + ' ' + this.lastName
@@ -67,7 +67,7 @@ data(){
             second: 0
         }
     }
-}
+},
 watch: {
     secondChange: {
         handler(oldVal, newVal){
@@ -88,3 +88,47 @@ watch: {
 ![image-20220218023135191](C:\Users\Kurja\AppData\Roaming\Typora\typora-user-images\image-20220218023135191.png)
 
 **深度监听对应的函数名必须是handler**，否则无效果，因为`watcher`里面对应的是对`handler`的调用。
+
+#### 2.4 监听对象单个属性
+
+方法一：可以直接用对象属性的方法拿到属性
+
+```js
+data(){
+    return {
+        'first': {
+            second: 0
+        }
+    }
+},
+watch: {
+    first.second: function(newVal, oldVal){
+        console.log(newVal, oldVal)
+    }
+},
+```
+
+方法二： watch如果想要监听对象的单个属性的变化，**必须用computed作为中间件转化**，因为computed可以取到对应的属性值。
+
+```js
+data: {
+    return {
+        'first': {
+            second: 0
+        }
+    }
+},
+computed: {
+    secondChange(){
+        return this.first.second
+    }
+},
+watch: {
+    secondChange(){
+        console.log('second属性变化了')
+    }
+},
+
+```
+
+#### 
