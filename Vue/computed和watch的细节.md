@@ -145,3 +145,126 @@ watch: {
 - 应用：监听`props`，`$emit`或本组件的值执行异步操作；
 - 无缓存性，页面重新渲染时值不变化也会执行。
 
+### 4. props 传值
+
+#### 4.1 传输简单数据类型常见错误
+
+```js
+props: ['listShop'],
+data(){
+    return{}
+},
+created(){
+    this.listShop = 30
+}
+```
+
+传入的值想作为全局变量来使用，直接使用会报错
+
+![image-20220218033049619](C:\Users\Kurja\AppData\Roaming\Typora\typora-user-images\image-20220218033049619.png)
+
+这个错误说的是，**避免直接修改父组件传入的值，因为会改变父组件的值**。
+
+#### 4.2 解决方法
+
+简单数据类型的解决方案：
+
+可以在data中重新定义一个变量，改变指向，但是也只是针对简单数据类型，因为**复杂数据类型栈存储的是指针**（待以后深入理解原因）
+
+```js
+props: ['listShop'],
+data(){
+    return {
+        listShopChild: this.listShop
+    }
+},
+created(){
+    this.listShopChild = 30
+}
+```
+
+这样就可以愉快地更改传入的简单数据类型的数据啦！不会有任何报错，也不影响父组件！
+
+#### 4.3 传输复杂数据类型常见问题
+
+复杂数据类型在栈中存储的是指针，所以赋值给新的变量也会改变原始的变量值
+
+#### 4.4 解决方法一
+
+##### 4.4.1手动深度克隆一个复杂的数据出来，循环或者递归都行
+
+**数组深度克隆**
+
+```js
+let x = [1, 2, 3];
+let y = [];
+for (let i = 0; i < x.length; i++){
+    y[i] = x[i]
+}
+console.log(y); //[1,2,3]
+y.push(4);
+console.log(y); //[1,2,3,4]
+console.log(x); //[1,2,3]
+```
+
+**对象深度克隆**
+
+```js
+let x = {
+    a: 1,
+    b: 2
+}
+let y = {}
+for(let i in x){
+    y[i] = x[i]
+}
+console.log(y); //{a: 1,b: 2}
+y.c = 3;
+console.log(y); //{a:1, b: 2, c: 3}
+```
+
+**函数深度克隆**
+
+```js
+let x = function(){
+    console.log(1)
+}
+let y = x;
+y = function(){
+    console.log(2)
+}
+x(); //1
+y(); //2
+```
+
+为什么函数可以直接赋值克隆？
+
+由于函数对象克隆之后的对象会单独复制一次并储存实际数据，因此并不影响克隆之前的对象。所以采用简单的复制`"="`即可完成克隆
+
+##### 4.4.2 Object.assign
+
+只会对一级属性复制，比浅拷贝多深拷贝了一层而已，所以还是无法达到深度克隆的目的
+
+##### 4.4.3强大的JSON.stringfy 和 JSON.parse
+
+```js
+const obj1 = JSON.parse(JSON.stringfy(obj))
+```
+
+这是ES5新出来的API，**先将对象转化为字符串，就是简单数据类型赋值，再用JSON.parse转化**。
+
+#### 4.5 解决方法二
+
+直接用`computed`改变
+
+```js
+computed: {
+    listShopChild(){
+        return this.listShop
+    }
+}
+```
+
+此时用computed时，如果是数组this.$set(arr, 1,true)对应值也不更新，这很坑
+
+如果传入的值只在data定义，并未在methods或生命钩子更改，直接改变也会报错，所以还是可以先用局部变量接收，再修复，这个坑比较多。
