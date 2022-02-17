@@ -48,7 +48,9 @@ watch: {
     firstName: function(val){
         this.fullName = val + ' ' + this.lastName
     },
-    this.fullName = this.firstName + ' ' + val
+    lastName: function(val){
+    	this.fullName = this.firstName + ' ' + val   
+    }
 }
 ```
 
