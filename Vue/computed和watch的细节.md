@@ -30,3 +30,26 @@ computed: {
 }
 ```
 
+### 2. watch
+
+#### 2.1 定义
+
+watch是一个观察动作
+
+#### 2.2 示例
+
+```js
+data: {
+    firstName: '云柱',
+    lastName: '火柱'，
+    fullName: '云柱 火柱'
+}
+watch: {
+    firstName: function(val){
+        this.fullName = val + ' ' + this.lastName
+    },
+    this.fullName = this.firstName + ' ' + val
+}
+```
+
+上面是监听firstName和lastName的变化，但仅限简单数据类型。
