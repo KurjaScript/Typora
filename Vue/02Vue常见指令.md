@@ -149,3 +149,82 @@ let vm = new Vue({
 
 ![image-20220221204345321](C:\Users\Kurja\AppData\Roaming\Typora\typora-user-images\image-20220221204345321.png)
 
+#### 3.6 v-show
+
+##### 3.6.1 定义
+
+基于`display: none`控制元素的显隐
+
+##### 3.6.2 使用
+
+`v-show: '变量'`
+
+##### 3.6.3 注意
+
+`v-show` 后边跟的是一个布尔类型(其他类型会默认转成布尔)
+
+##### 3.6.4 v-if 和v-show的区别
+
+- 当条件不成立时：`v-if`是整个标签都不加载；`v-show`是加载了标签，同时设置了`display: none`属性。
+- 性能消耗方面：`v-if`有较大的切换开销；`v-show`有较大的初始加载开销。
+- 在过于频繁的切换中，`v-if`明显要比`v-show`性能低一些。
+
+#### 3.7 v-model
+
+##### 3.7.1 定义
+
+一般给表单元素设置的，实现表单元素和数据之间的相互绑定。
+
+##### 3.7.2 使用
+
+`v-model = '变量'`
+
+##### 3.7.3 效果
+
+- 视图 <=> 数据
+- 视图改变，表单元素的内容跟着改变，内容改变，数据也会跟着更新。
+
+##### 3.7.4 原理
+
+- 先把数据绑定给表单元素，一般把数据赋值给表单元素的value；
+- 监听表单元素的内容改变；
+- 内容改变后，会把对应的数据也改变；
+- 对应的数据改变，视图中所有用到数据的地方都会重新渲染。
+
+#### 3.8 表单中v-model的使用
+
+##### 3.8.1 定义
+
+按照v-model进行分组，单选框装备的数据是一个值，复选框准备的数据是一个数组；每个框都有自己的value，谁被选中，数据值就是被选中元素的value值，值是多少，对应value的元素也会被默认选中。
+
+##### 3.8.2 复选框
+
+```html
+<input value = '1' type = 'checkbox' v-model = 'ary'>
+<input value = '1' type = 'checkbox' v-model = 'ary'>
+<input value = '1' type = 'checkbox' v-model = 'ary'>
+```
+
+`ary`中存放的是被选中的那些`checkbox`的`value`值，`ary[1,3]`:就是默认选中value为1和3的元素
+
+##### 3.8.3 单选框
+
+```html
+<input type = 'radio' value = '男' v-model = 'sex'>
+<input type = 'radio' value = '女' v-model = 'sex'> 
+```
+
+sex存储的是选中的那个radio的value值，`sex: '女'`：就是默认选中的是value为女的元素。
+
+##### 3.8.4 下拉框
+
+```html
+<select v-model='food'>
+    <option value='rice'>米</option>
+    <option value='apple'>苹果</option>
+    <option value='banana'>香蕉</option>
+</select>
+```
+
+food存储的是里边option对应的value值，`food: 'rice'`：默认展示的是value为rice的元素。
+
