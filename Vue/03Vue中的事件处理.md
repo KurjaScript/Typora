@@ -45,4 +45,3 @@
 支持以下按键、及其对应的键盘码`@keydown.按键 = '函数'`操作
 
 `.enter`、`.tab`、`.delete(捕获"删除"和"退格"键)`、`.esc`、`.space`、`.up`、`.down`、`.left`、`.right`
-
