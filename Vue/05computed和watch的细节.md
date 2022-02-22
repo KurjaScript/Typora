@@ -6,7 +6,42 @@
 
 computed中的属性会挂载到实例上，函数中的this是当前实例，它储存的值是对应方法返回的结果——getter函数处理的结果。
 
-#### 1.2 get和set用法
+#### 1.2 computed全写
+
+计算属性默认只有getter，不过在需要时也可以提供一个setter：
+
+##### 1.2.1 简写
+
+```js
+computed: {
+    //GETTER函数
+    reverseComputed() {
+        return this.text.split('').reverse().join('')
+    }
+}
+```
+
+##### 1.2.2 全写
+
+```js
+computed: {
+    reverseComputed: {
+        get() {
+            //=> GETTER: 只要获取这个属性值就会触发GET函数执行
+            return this.text.split('').reverse().join('')
+        },
+        set(value) {
+            //=> SETTER: 给属性设置值的时候会触发SET函数，VALUE是给属性设置的值
+            console.log('OK', value);
+        }
+    }
+}
+```
+
+##### 1.2.3 get和set用法
+
+- getter函数——只要获取这个属性值就会触发GET函数执行；
+- setter函数——给属性设置值的时候会触发SET函数
 
 ```js
 data: {
