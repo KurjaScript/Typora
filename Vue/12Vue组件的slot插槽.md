@@ -18,7 +18,38 @@ template模板中预留的插槽位置，调用组件时，传进来的内容默
 
 在模板中给预留的插槽设置名字，为插入多个值中的某一个。
 
-原组件
+#### 3.2 实例
+
+##### 3.2.1
+
+```html
+// 具名插槽：在模板中给预留的插槽设置名字
+<template id="pageTemplate">
+	<div class="box">
+		<slot name="header"><span>左边</slot>
+		<slot></slot>
+        <p>法国VICKI</p>
+        <slot name="footer"></slot>
+	</div>
+</template>
+```
+
+```html
+<page>
+	// 具名插槽指定内容的时候需要用template把内容包起来：
+    // v-slot: [name]把模板中的内容放置到指定的命名插槽下，
+    // 剩余不指定的都插入到默认的插槽中<slot>
+    <template v-slot:header>
+        <div>我是页眉</div>
+    </template>
+    <p>hiao~</p>
+    <template v-slot: footer>
+        <div>我是页尾</div>
+    </template>
+</page>
+```
+
+##### 3.2.2 
 
 ```html
 <template id="cpn">
@@ -30,14 +61,14 @@ template模板中预留的插槽位置，调用组件时，传进来的内容默
 </template>
 ```
 
-改变
-
 ```html
 <div id="app">
 	<cpn><span slot="center">标题</span></cpn>
 	<cpn><button slot="left">返回</button></cpn>
 </div>
 ```
+
+
 
 ### 4. 作用域插槽
 
