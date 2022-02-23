@@ -8,6 +8,10 @@
 - 插槽的默认值, 例如`<slot>button</slot>`
 - 如果有多个值，同时放入到组件进行替换时，则一起作为替换元素
 
+![image-20220223113730585](C:\Users\Kurja\AppData\Roaming\Typora\typora-user-images\image-20220223113730585.png)
+
+template模板中预留的插槽位置，调用组件时，传进来的内容默认传递进改插槽中。
+
 ### 3. 具名插槽的使用
 
 为插入多个值中的某一个
