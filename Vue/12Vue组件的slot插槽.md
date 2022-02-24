@@ -108,7 +108,7 @@ template模板中预留的插槽位置，调用组件时，传进来的内容默
     <!-- v-slot: default="kurja" => v-slot="kurja" -->
     <template>
 		<p>SLOT: {{kurja.context}}</p>
-		<p>SLOT: {{kurja.a}}</p>
+		<p>SLOT: {{kurja.age}}</p>
     </template>
 </page>
 ```
