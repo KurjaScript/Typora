@@ -96,3 +96,23 @@ export default router;
 
 **每一次URL地址后面的HASH值改变，程序就监听到了，程序会重新从路由表中第一个开始向下依次进行匹配，直到找到符合的那一项为止。**
 
+### 3. 命名视图
+
+```html
+<!-- 内容 容器不设置名字，默认名字default -->
+<router-view></router-view>
+<router-view name="AAA"></router-view>
+```
+
+```js
+routers: [{
+    path: '/',
+    name: 'home',
+    components :{
+        default: Home,
+        AAA: Active,
+    }
+}]
+```
+
+不指定视图，默认渲染Home组件，Active组件渲染到AAA视图中。
