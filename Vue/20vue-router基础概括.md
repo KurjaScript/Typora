@@ -116,3 +116,49 @@ routers: [{
 ```
 
 不指定视图，默认渲染Home组件，Active组件渲染到AAA视图中。
+
+### 4. 路由懒加载
+
+- 在路由表中首先要导入需要用到的全部组件，在路由表处理的时候，首先会把这些组件全部编译处理，然后向下逐一执行代码。如果组件过多，会大大影响性能。
+
+- 出于性能优化考虑，利用路由懒加载，实现按需加载。
+
+  ```js
+  component: () => {
+      // 路由懒加载
+      return import('../pages/Home.vue');
+  }
+  ```
+
+  不需要在开始导入全部组件，在路由表中使用组件的时候，再导入。
+
+### 5. 子路由
+
+子路由的值是一个数组，每一项都是一个对象，对象中包含的内容与routes中一致。
+
+```js
+routes: [{
+    // 一级路由
+    path: '/',
+    name: 'home',
+    component: Home,
+    // 二级路由
+    children: [{
+        path: '/list',
+        name: 'list',
+        component: List,
+        children: [{
+            path: '/system',
+            name: 'system',
+            component: system
+        },{
+            path: '/active',
+            name: 'active',
+            component: Active
+        }]
+    }]
+}]
+```
+
+![image-20220302140722506](C:\Users\Kurja\AppData\Roaming\Typora\typora-user-images\image-20220302140722506.png)
+
