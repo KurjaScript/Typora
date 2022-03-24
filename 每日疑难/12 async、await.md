@@ -71,3 +71,60 @@ asyncPrint('hello world', 50)
 // 50毫秒以后，输出"hello world"
 ```
 
+### 注意点
+
+1. `await` 命令后面的 `Promise` 对象，运行结果可能是 `reject`，所以最好把await命令放在`try...catch`代码块中。
+
+```js
+async function muFunction() {
+    try {
+        await somethingThatReturnsAPromise()
+    } catch (err) {
+        console.log(err)
+    }
+}
+
+// 另一种写法
+async function myFunction() {
+    await somethingThatReturnsAPromise().catch(function(err){
+        console.log(err)
+    })
+}
+```
+
+2. **await 命令只能用在 async 函数之中，如果用在普通函数，就会报错。**
+
+3. 不能将forEach方法的参数改成async函数，否则可能会得到错误的结果。正确的写法是采用`for` 循环。
+
+   ```js
+   async function dbFuc(db) {
+       let docs = [{},{},{}];
+       for (let doc of docs) {
+           await db.post(doc)
+       }
+   }
+   ```
+
+4. 如果希望多个请求并发执行，可以使用 `Promise.all` 方法。
+
+   ```js
+   async funtion dbFuc(db) {
+       let docs = [{},{},{}];
+       let promises = docs.map((doc) => db.post(doc))
+       let results = await Promise.all(promises)
+       console.log(results)
+   }
+   
+   // 或者使用下面的方法
+   async function dbFuc(db) {
+       let docs = [{},{},{}];
+       let promises = docs.map((doc) => db.post(doc))
+       let result = []
+       for (let promise of promises) {
+           results.push(await promise)
+       }
+       console.log(result)
+   }
+   ```
+
+   
