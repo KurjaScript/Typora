@@ -173,3 +173,71 @@ export default {
 }
 ```
 
+### 接口
+
+这时候，该去写后端接口了。这里用了阿里的 egg 框架，感觉很强大。
+
+首先定义一个 `LoginController` ：
+
+```js
+const Controller = require('egg').Controller;
+const jwt = require('jsonwebtoken'); // 引入 jsonwebtoken
+
+class LoginController extends Controller {
+  async index() {
+    const ctx = this.ctx;
+/*
+ 把用户信息加密成 token ,因为没连接数据库，所以都是假数据
+正常应该先判断用户名及密码是否正确
+*/
+    const token = jwt.sign({       
+      user_id: 1,      // user_id
+      user_name: ctx.request.body.username // user_name
+    }, 'shenzhouhaotian', { // 秘钥
+        expiresIn: '60s' // 过期时间
+    });
+    ctx.body = {             // 返回给前端
+      token: token
+    };
+    ctx.status = 200;           // 状态码 200
+  }
+}
+
+module.exports = LoginController;
+```
+
+然后定义一个 `UserController` ：
+
+```js
+class UserController extends Controller {
+  async index() {
+    const ctx = this.ctx
+    const authorization = ctx.get('Authorization');
+    if (authorization === '') { // 判断请求头有没有携带 token ,没有直接返回 401
+        ctx.throw(401, 'no token detected in http header "Authorization"');
+    }
+    const token = authorization.split(' ')[1];
+    // console.log(token)
+    let tokenContent;
+    try {
+        tokenContent = await jwt.verify(token, 'shenzhouhaotian');     //如果 token 过期或验证失败，将返回401
+        console.log(tokenContent)
+        ctx.body = tokenContent     // token有效，返回 userInfo ;同理，其它接口在这里处理对应逻辑并返回
+    } catch (err) {
+        ctx.throw(401, 'invalid token');
+    }
+  }
+}
+```
+
+在 `router.js` 里定义接口：
+
+```js
+module.exports = app => {
+  const { router, controller } = app;
+  router.get('/', controller.home.index);
+  router.get('/profile', controller.user.index);
+  router.post('/login', controller.login.index);
+};
+```
+
