@@ -81,4 +81,95 @@ router.beforeEach((to,from,next) => {
 })
 ```
 
-这里使用了 Vuex 的 action 方法，马上就会说到。
+这里使用了 `Vuex` 的 `action` 方法，马上就会说到。
+
+### Vuex
+
+首先，在 `mutation_types` 里定义：
+
+```js
+export const LOGIN = 'LOGIN' // 登录
+export const USERINFO = 'USERINFO' // 用户信息
+export const LOGINSTATUS = 'LOGINSTATUS' // 登录状态
+```
+
+然后在 `mutation` 里使用它们：
+
+```js
+const mutations = {
+  [types.LOGIN]: (state, value) => {
+    state.token = value
+  },
+  [types.USERINFO]: (state, info) => {
+    state.userInfo = info
+  },
+  [types.LOGINSTATUS]: (state, bool) => {
+    state.loginStatus = bool
+  }
+}
+```
+
+在之前封装 Axios 的 JS里定义请求接口：
+
+```js
+export const login = ({ loginUser, loginPassword }) => {
+  return instance.post('/login', {
+    username: loginUser,
+    password: loginPassword
+  })
+}
+
+export const getUserInfo = () => {
+  return instance.get('/profile')
+}
+```
+
+在 Vuex 的 actions 里引入：
+
+```js
+import * as types from './types'
+import { instance, login, getUserInfo } from '../api'
+```
+
+定义 action：
+
+```js
+export default {
+  toLogin ({ commit }, info) {
+    return new Promise((resolve, reject) => {
+      login(info).then(res => {
+        if (res.status === 200) {
+          commit(types.LOGIN, res.data.token) // 存储 token
+          commit(types.LOGINSTATUS, true)     // 改变登录状态为 
+          instance.defaults.headers.common['Authorization'] = `Bearer ` + res.data.token // 请求头添加 token
+          window.localStorage.setItem('token', res.data.token)  // 存储进 localStorage
+          resolve(res)
+        }
+      }).catch((error) => {
+        console.log(error)
+        reject(error)
+      })
+    })
+  },
+  getUser ({ commit }) {
+    return new Promise((resolve, reject) => {
+      getUserInfo().then(res => {
+        if (res.status === 200) {
+          commit(types.USERINFO, res.data) // 把 userInfo 存进 Vuex
+        }
+      }).catch((error) => {
+        reject(error)
+      })
+    })
+  },
+  logOut ({ commit }) { // 退出登录
+    return new Promise((resolve, reject) => {
+      commit(types.USERINFO, null)        // 情况 userInfo
+      commit(types.LOGINSTATUS, false)  // 登录状态改为 false
+      commit(types.LOGIN, '')          // 清除 token
+      window.localStorage.removeItem('token')
+    })
+  }
+}
+```
+
