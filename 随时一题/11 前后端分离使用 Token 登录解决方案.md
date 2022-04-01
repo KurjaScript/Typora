@@ -241,3 +241,39 @@ module.exports = app => {
 };
 ```
 
+### 前端请求
+
+接口写好后，前端就可以向后台发送请求了。下面是点击登录时的 `login` 方法：
+
+```js
+    login () {
+      if (this.username === '') {
+        this.$message.warning('用户名不能为空哦~~')
+      } else if (this.password === '') {
+        this.$message.warning('密码不能为空哦~~')
+      } else {
+        this.$store.dispatch('toLogin', {      // dispatch toLogin action
+          loginUser: this.username,
+          loginPassword: this.password
+        }).then(() => {
+          this.$store.dispatch('getUser')      // dispatch getUserInfo action
+          let redirectUrl = decodeURIComponent(this.$route.query.redirect || '/')
+          console.log(redirectUrl)
+          // 跳转到指定的路由
+          this.$router.push({
+            path: redirectUrl
+          })
+        }).catch((error) => {
+          console.log(error.response.data.message)
+        })
+      }
+    }
+```
+
+登录成功后，跳转到首页之前重定向过来的页面。
+
+整体流程跑完了，实现的主要功能是：
+
+1. 访问登录注册之外的路由，都需要登陆权限，比如首页，判断有无 token，有则访问成功，没有则跳转到登录页面；
+2. 登陆成功后，跳转到之前重定向过来的页面；
+3. token 过期后，请求接口时，身份过期，跳转到登录页，继续第二步；这一步主要用了可以做 7 天自动登录等功能。
