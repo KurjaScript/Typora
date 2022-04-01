@@ -36,3 +36,49 @@ instance.interceptors.response.use(response => {
 })
 ```
 
+### 定义路由
+
+```js
+const router = new Router({
+    mode: 'history'
+    routes: [
+    	{
+    		path: '/',
+    		name: 'Index',
+    		component: Index,
+    		meta: {
+    			requiresAuth: true
+			}
+		},
+        {
+        	path: '/login',
+            name: 'Login',
+            component: login
+        }
+    ]
+})
+```
+
+上面我给首页路由加了 `requiresAuth`，所以使用路由钩子来拦截导航，`localStorage` 里有 `token` ，就调用获取 `userInfo` 的方法，并继续执行，如果没有 `token` ，调用退出登录的方法，重定向到登录页。
+
+``` js
+router.beforeEach((to,from,next) => {
+    let token = window.localStorage.getItem('token')
+    if (to.meta.requiresAuth) {
+        if (token) {
+            store.dispatch('getUser')
+            next()
+        } else {
+            store.dispatch('logout')
+            next({
+                path: '/login',
+                query: {redirect: to.fullPath}
+            })
+        }
+    } else {
+        next()
+    }
+})
+```
+
+这里使用了 Vuex 的 action 方法，马上就会说到。
