@@ -10,19 +10,31 @@
 
 ### 3. 说一说 vuex 有哪些属性？
 
-Vuex 有 5 种属性：分别是 state、getters、mutation、action、module；
+`Vuex` 有 5 种属性：分别是 `state`、`getters`、`mutation`、`action`、`module`；
 
-- 其中 state 相当于 vue 组件中的 data；
+- 其中 `state` 相当于 `vue` 组件中的 data；
 
-- getters 相当于 vue 组件中的 computed；
-- mutation 用于修改 store 里的状态或数据，通过辅助函数 mapMutation 把 store 里的方法引入组件；
-- action 用来异步操作数据的，但我没有用过这个额属性。
+- `getters` 相当于 `vue` 组件中的 `computed`；
+- `mutation` 用于修改 `store` 里的状态或数据，通过辅助函数 `mapMutation` 把 `store` 里的方法引入组件；
+- `action` 用来异步操作数据的，但我没有用过这个额属性。
 
 ### 4. vuex 的应用场景有哪些？
 
-vuex 用于解决非父子组件之间的通信问题，各个组件共享 state 对象实现跨组件通信。
+`vuex` 用于解决非父子组件之间的通信问题，各个组件共享 `state` 对象实现跨组件通信。
 
 ### 5. 一般什么样的数据会放在 state 中？
 
 - 组件之间全局共享的数据；
-- 通过后端异步请求的数据 比如做加入购物车、登录状态等都可以使用Vuex来管理数据状态。
+- 通过后端异步请求的数据 比如做加入购物车、登录状态等都可以使用 `Vuex` 来管理数据状态。
+
+
+
+### 开发中的场景：
+
+1. ### 开发时，改变数组或者对象的数据，但是页面没有更新如何解决？
+
+   我会在 `computed` 里设置一个变量映射 `vuex` 里的数据。比如这个数据变化后就会调用接口传入新的数据，我会在 `watch` 里监听这个变量，当这个变量改变时调用接口，把数据重新赋值给 computed 里的变量，这样页面就会更新为最新请求到的数据。
+
+2. vue弹窗后如何禁止滚动条滚动？
+
+3. 如何在 vue 项目里正确地引用 `jquery` 和 `jquery-ui`的插件
