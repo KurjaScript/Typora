@@ -18,3 +18,11 @@ Vuex 有 5 种属性：分别是 state、getters、mutation、action、module；
 - mutation 用于修改 store 里的状态或数据，通过辅助函数 mapMutation 把 store 里的方法引入组件；
 - action 用来异步操作数据的，但我没有用过这个额属性。
 
+### 4. vuex 的应用场景有哪些？
+
+vuex 用于解决非父子组件之间的通信问题，各个组件共享 state 对象实现跨组件通信。
+
+### 5. 一般什么样的数据会放在 state 中？
+
+- 组件之间全局共享的数据；
+- 通过后端异步请求的数据 比如做加入购物车、登录状态等都可以使用Vuex来管理数据状态。
