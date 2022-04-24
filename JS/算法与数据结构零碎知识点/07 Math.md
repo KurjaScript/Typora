@@ -18,3 +18,6 @@ console.log(Math.ceil(-7.004));
 // expected output: -7
 ```
 
+#### 2. Math.floor()
+
+该函数返回一个小于或等于一个给定数字的最大整数。可以理解 `Math.floor()` 为**向下取整**。
