@@ -9,3 +9,16 @@
 #### 2. `Array.prototype.join()`
 
 `join()` 方法将一个数组的所有元素连接成一个字符串并返回这个字符串。
+
+#### 3. `Array.from()`
+
+`Array.from()`方法对一个类似数组或可迭代对象创建一个新的，浅拷贝数组实例。
+
+```js
+console.log(Array.from('foo'));
+// expected output: Array ["f", "o", "o"]
+
+console.log(Array.from([1, 2, 3], x => x + x));
+// expected output: Array [2, 4, 6]
+```
+
