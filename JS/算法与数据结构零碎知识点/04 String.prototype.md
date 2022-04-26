@@ -19,3 +19,15 @@
 ##### 语法 
 
 `str.replace(regexp|substr, newSubStr|function)`
+
+##### 参数
+
+- `regexp`(pattern)：一个 `RegExp` 对象或者其字面量。该正则所匹配的内容会被第二个参数的返回值替换掉。
+- `substr`(pattern)：一个将被 `newSubStr` 替换的字符串。被其视为一整个字符串，而不是一个正则表达式。仅第一个匹配项会被替换。
+- `newSubStr`(replacement)：用于替换掉第一个参数在原字符串中的匹配部分的字符串。该字符串中可以内插一些特殊的变量名。
+- `function`(replacement)：一个用来创建子字符串的函数，该函数的返回值将替换掉第一个参数匹配到的结果。
+
+##### 返回值
+
+一个部分或全部匹配由替代模式所取代的新的**字符串**。
+
