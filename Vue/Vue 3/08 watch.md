@@ -36,3 +36,45 @@ watch([fooRef, barRef], ([foo, bar], [prevF00, prevBar]) => {
 })
 ```
 
+### watch 与 watchEffect 相同的行为
+
+`watch` 与 `watchEffect` 在手动停止侦听、清除副作用（将 onInvalidate 作为第三个参数传递给回调）、刷新时机和调试方面有相同的行为。
+
+**类型声明：**
+
+```js
+// 侦听单一源
+function watch<T>(
+  source: WatcherSource<T>,
+  callback: (
+    value: T,
+    oldValue: T,
+    onInvalidate: InvalidateCbRegistrator
+  ) => void,
+  options?: WatchOptions
+): StopHandle
+
+// 侦听多个源
+function watch<T extends WatcherSource<unknown>[]>(
+  sources: T
+  callback: (
+    values: MapSources<T>,
+    oldValues: MapSources<T>,
+    onInvalidate: InvalidateCbRegistrator
+  ) => void,
+  options? : WatchOptions
+): StopHandle
+
+type WatcherSource<T> = Ref<T> | (() => T)
+
+type MapSources<T> = {
+  [K in keyof T]: T[K] extends WatcherSource<infer V> ? V : never
+}
+
+// 参见 `watchEffect` 共享选项的类型声明
+interface WatchOptions extends WatchEffectOptions {
+  immediate?: boolean // 默认：false
+  deep?: boolean
+}
+```
+
