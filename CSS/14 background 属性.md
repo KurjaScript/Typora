@@ -78,3 +78,27 @@ visibility: 元素仍然存在DOM树中，只是不显示而已；display: none�
 - border-box: 从 border 区域 （含 border）开始显示背景图像；
 - padding-box：从 padding 区域（含 padding）开始显示背景图像；
 - content-box：从 content 区域开始显示背景图像。
+
+### background-clip
+
+规定背景的绘制区域
+
+默认值：border-box
+
+可能的值：
+
+- `border-box`: 从 border 区域（不含 border）开始向外裁剪背景；
+
+- `padding-box`: 从 padding 区域（不含 padding）开始向外裁剪背景。
+
+- `content-boc`: 从 content 区域开始向外裁剪背景。
+
+- `text`: 从前景内容的形状（比如文字）作为裁剪区域或向外裁剪，如此即可实现背景作为填充色之类的遮罩效果。
+
+  ```css
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-size: cover;
+  ```
+
+Background-clip 只是把背景和背景色粗暴地裁剪。
