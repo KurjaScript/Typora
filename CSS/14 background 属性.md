@@ -37,3 +37,17 @@ visibility: 元素仍然存在DOM树中，只是不显示而已；display: none�
 
 **从这里可以引发一些对资源请求的思考了**
 
+### background-size
+
+用来设置背景图像的尺寸，默认值为 auto
+
+语法： `background-size:length | percentage | cover | contain`
+
+- `length([width, heigth='auto'])`
+- `percentage([width,height='auto'])`:以父元素的百分比来设置背景图像的宽度和高度
+- cover: 将背景图像**等比放大到完全覆盖容器**，背景图像有可能超出容器
+- contain: 将背景图像**等比缩放到宽度或高度与容器的宽度或高度相等**，背景图像始终被包含在容器内
+
+- `background-size: 100%`:总是 X 轴 100% 铺满整个容器， Y 轴可能被裁剪会出现空白填不满部分，图片不变形，可表现为 cover 或 contain
+
+设定超过一张以上的图片尺寸时，需要提供多项数值，它们通过逗号分隔，如 `background-size: 50% 25%, contain, 50px`
