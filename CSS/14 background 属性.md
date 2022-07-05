@@ -61,15 +61,20 @@ visibility: 元素仍然存在DOM树中，只是不显示而已；display: none�
 可能的值：
 
 - `repeat-x`：背景图像在横向上平铺
-
 - `repeat-y`：背景图像在纵向上平铺
-
 - `repeat`：背景图像在横向和纵向平铺
-
 - `no-repeat`：背景图像不平铺
-
 - `round`：**背景图像自动缩放直到适应且填充满整个容器。**（CSS3）
-
 - `space`：**背景图像以相同的间距平铺且填充满整个容器或某个方向。**（CSS3）
 
-  
+### background-origin
+
+设置 `background-position`属性相对于什么位置来定位
+
+默认值：padding-box
+
+语法：`background-origin: padding-box | border-box | content-box`
+
+- border-box: 从 border 区域 （含 border）开始显示背景图像；
+- padding-box：从 padding 区域（含 padding）开始显示背景图像；
+- content-box：从 content 区域开始显示背景图像。
