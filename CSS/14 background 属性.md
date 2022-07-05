@@ -51,3 +51,25 @@ visibility: 元素仍然存在DOM树中，只是不显示而已；display: none�
 - `background-size: 100%`:总是 X 轴 100% 铺满整个容器， Y 轴可能被裁剪会出现空白填不满部分，图片不变形，可表现为 cover 或 contain
 
 设定超过一张以上的图片尺寸时，需要提供多项数值，它们通过逗号分隔，如 `background-size: 50% 25%, contain, 50px`
+
+### background-repeat
+
+设置是否及如何重复背景图像，默认值：repeat
+
+语法：`background-repeat:<repeat-style> [<repeat-style>]`; 可设置两个值，第二个值可选；第一个用于横向，第二个用于纵向。
+
+可能的值：
+
+- `repeat-x`：背景图像在横向上平铺
+
+- `repeat-y`：背景图像在纵向上平铺
+
+- `repeat`：背景图像在横向和纵向平铺
+
+- `no-repeat`：背景图像不平铺
+
+- `round`：**背景图像自动缩放直到适应且填充满整个容器。**（CSS3）
+
+- `space`：**背景图像以相同的间距平铺且填充满整个容器或某个方向。**（CSS3）
+
+  
