@@ -52,7 +52,7 @@ watchEffect(() => {
 停止监听，比较简单的一个方式就是再调一次 watch() 函数的返回值。如下：
 
 ```
-const stop = watch(count, (val,oldVal) => {
+const stop = watchEffect(count, (val,oldVal) => {
 	if(val !== oldVal) {
 		data.value.pageNum = val
 		// 当页码不一样调取接口
@@ -61,3 +61,35 @@ const stop = watch(count, (val,oldVal) => {
 // 然后在某个函数中调用 stop() 函数，监听就停止了
 ```
 
+### watch 和 watchEffect 的区别
+
+1. watch 时惰性执行的，也就是只有监听值发生变化的时候才会执行，但是 watchEffect 不同，每次代码加载 watchEffect 都会执行。（忽略 warch 第三个参数的配置，如果修改配置项也可以实现立即执行）；
+
+2. watch 需要传递监听对象， watchEffect 不需要；
+
+3. watch 只能监听响应式数据：ref 定义的属性和 reactive 定义的对象，如果直接监听 reactive 定义对象中的属性是不允许的，除非使用函数转换一下；
+
+4. watchEffect 如果监听 reactive 定义的对象是不起作用的，只能监听对象中的属性。
+
+   ```tsx
+   let count = ref(0)
+   let countObj = reactive({ count: 0 })
+   
+   // 惰性，首次加载不执行
+   watch(count, (newVal, oldVal) => { console.log(newVal, oldVal)})
+   // watch 不能直接监听 reactive 里面的属性，只能监听 ref、reactive 对象、function、array，如果想监听 reactive 里某个属性，需要转换成函数
+   watch(() => countObj.count, (newVal, oldVal) => { console.log(oldVal, newVal)}, {})
+   watch(countObj,(newVal, oldVal) => {
+     console.log(newVal, oldVal)
+   })
+   // 监听多个值，前面是监听数据的数组，后面的参数是两个数组，前面数组是变化后监听对象值的数组，后面是变化前监听对象值的数组
+   watch([countObj, count], ([oneNewName,twoNewName], [oneOldName, twoOldName]) => {
+     console.log(oneNewName, oneOldName, twoNewName, twoOldName)
+   })
+   // watchEffect 和 watch 不一样，1. 会立即执行，只要定义了就会执行；2. 他只能监听某个值，监听对象不管用； 3. 不需要传参，会自动管制代码中的变量； 4. 没法获取 newVal 和 oldVal
+   const watchEf = watchEffect(() => {
+     console.log(countObj.count)
+   })
+   ```
+
+   
