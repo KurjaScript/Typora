@@ -54,3 +54,36 @@ export default {
 
 以上代码，obj 中的 name 和 newObj 都变成了云柱，但是视图显示还是Kurja。
 
+### toRefs
+
+toRefs 是将整个对象转化成响应式数据 toRefs(obj)
+
+```tsx
+import { toRefs } from 'vue'
+export default {
+  let obj = {name: 'Kurja', age: 26}
+	let newObj = toRefs(obj)
+  setTimeout(() => {
+    newObj.name.value = '云柱'
+    console.log(obj, newObj)
+  }, 2000)
+	return {obj, newObj}
+}
+```
+
+需要注意的是，按照上面这种写法，在模版中使用的时候，需要按照这种方式 `{{newObj.name.value}}`，如果想直接使用 {{name}}，那么在 setup 中 return 的时候需要解构下
+
+```tsx
+import { toRefs } from 'vue'
+export default {
+  let obj = {name: 'Kurja', age: 26}
+	let newObj = toRefs(obj)
+  setTimeout(() => {
+    newObj.name.value = '云柱'
+    console.log(obj, newObj)
+  }, 2000)
+	return {obj, ...newObj}
+}
+```
+
+这样，在模版中就可以直接通过 {{name}}来获取了。
