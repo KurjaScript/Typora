@@ -21,3 +21,5 @@ watch(message, (newVal, oldVal) => {
 ```
 
 如果是用 reactive，即使不写第三个参数，也是可以侦听到对象的深层次的属性。
+
+如果只想侦听对象中的某一个属性值，可以把第一个参数传入一个返回改属性的函数。`watch(() => message.name,(newVal, oldVal) => {...})`
