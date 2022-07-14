@@ -87,3 +87,27 @@ export default {
 ```
 
 这样，在模版中就可以直接通过 {{name}}来获取了。
+
+### toRaw
+
+在`setup`函数中，我们通过`ref`和`reactive`函数创建响应式数据，其特点是，每次修改数据都会更新`UI`界面，这样的问题是非常消耗性能.
+
+可以通过 vue3 提供的 toRaw 方法来获取该数据被 Proxy 包装前的原始数据，然后通过对原始数据进行修改，进而可以修改对应的代理对象内部数据。这是通过原始数据修改改变的，并不会触发 UI 界面更新
+
+```tsx
+import {reactive, toRaw} from 'vue'
+export default {
+  setup() {
+    const obj1 = {name: 'Kurja'}
+    const user = reactive(obj1)
+    const obj2 = toRaw(user)
+    console.log(obj1 === obj2) // true
+    function change() {
+      obj2.name = 'Frank'
+    }
+    return {user, change}
+  }
+}
+```
+
+上面例子中，通过包装后的响应式对象 user 来修改，界面会立即跟新。但如果通过修改原始数据 obj2 来修改数据，界面是不会更新的。另外我们可以看见 `obj1 === obj2`，由此证明：`toRaw` 就是用于获取一个 Proxy 对象的原始数据。**还原**
