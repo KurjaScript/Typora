@@ -189,3 +189,42 @@ module.exports = {
 此时我们的网页首页应该是这个样子。其他页面还无法跳转，因为此处点击菜单跳转时，页面对应的 markdown 文件为空，会跳转至 404 页面。而侧边栏则会自动匹配当前页面路径，**若侧边栏数据存在当前页面路径，则显示不出来，路径匹配不到则隐藏侧边栏，这也是它可以不同页面匹配不同的侧边栏的原因**。
 
 ![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lhlt7ajzj21a30memz4-20220727162403441.jpg)
+
+### 4. markdown 及其他文件路径解析
+
+到这一步，首页、导航栏和侧边栏都已经实现了，但是点击导航栏跳转页面，都会跳转至 404 页面。我们的链接都是链接到 markdown 文件，在 vuepress 打包后会自动生成页面。若链接对应的 markdown 文件不存在，则会跳转 404。若存在，则跳转解析生成的页面。
+
+![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lkya210hj207i05bt8k.jpg)
+
+还得明确一个概念，vuepress 的文件寻址，**不同类型的文件都已经预设好不同的默认路径。**比如说上一步的 logo 图片引用的路径，就是遍历 `docs/.vuepress/public` 寻找文件，我们只需要把图片放在这个文件夹就可以了。 Markdown 的文件就是按我们写的放在 `docs/pages` 文件夹下，里面每个文件夹名字就是一个子路径。如此类推，每个类型的文件必须放在规定好的位置。
+
+ **文件路径的默认寻址方式**
+
+- 和图标/图片等静态资源相关的，第一个 '/' 默认指向的是 `/docs/.vuepress /public/`
+- 侧边栏/导航栏链接的 markdown 文件，第一个 '/' 默认指向的是 `docs/`，我们这里都放置在 `docs/pages` 里
+- 嵌入在 markdown 中使用的 vue 组件，放置在 `docs/.vuepress/components`目录中
+
+此时留意一下，我们在上一步设置顶端导航栏和侧边栏的时候，顶端的**分类-文章**，侧边的**测试菜单1-子菜单1**都共同指向 `/pages/folder1/test1.md`，当我们点击其中一个链接时，跳转的页面都是一致的。都是会跳转到 `docs/pages/folder1/test1.md` 文件解析生成的页面中。所有导航栏都会根据当前页面地址，判断当前导航的选中状态。
+
+根据之前设置的导航参数，我们需要在 **pages 文件夹**下创建以下的文件，并在每个 markdown 文件中填写一定的内容，便于测试效果。
+
+![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4ln0bu2foj20d80c4t91.jpg)
+
+```md
+## markdown 示例内容，可以自己填写别的
+
+#### 1小时搞定vuepress快速制作vue文档/博客+免费部署预览
+https://juejin.cn/post/6844903999129436174
+
+#### nginx一健配置
+https://nginxconfig.io/
+
+#### lodash按需加载
+https://www.jianshu.com/p/f03ff4f3a8b3
+```
+
+当我们的 markdown 文件创建好之后，我们导航栏和侧边栏的跳转链接也就有了对应的文件。再点击进入顶端导航栏的**分类-文章**，即可跳转至如下页面：
+
+![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lo4iycijj21a80gy3zq.jpg)
+
+文档梳理完后，我们之后每次只需要修改 `config.js` 文件中的导航栏和侧边栏，确保每个路径对应的位置都存在相对应的文件，我们就可以专注在 markdown 文档的编辑中了。
