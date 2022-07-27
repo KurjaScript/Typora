@@ -122,5 +122,70 @@ features:
 >
 > actionLink 地址配置第一个 '/' 默认指向的是 docs/，若路径文件不存在，点击进去会跳转至 404.文件路径之后会详细讲解。
 
-上面每个你都可以对照下面的图片进行查看，都是一一对应的，此时再重新运行 `yarn dev`, 网页如下图所示。![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lchypf8tj21a10meabv-20220727150553640.jpg)
+上面每个你都可以对照下面的图片进行查看，都是一一对应的，此时再重新运行 `yarn dev`, 网页如下图所示。
 
+![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lchypf8tj21a10meabv-20220727150553640.jpg)
+
+#### 3.3 修改页面导航栏、侧边导航栏
+
+导航栏修改和侧边栏修改在 `config.js` 文件进行修改，在之前添加的 `module.exports` 里添加如下代码：
+
+```tsx
+module.exports = {
+  // ...省略部分代码
+  
+  // 下面涉及到的 md 文件和其他文件的路径下一步再详细解释
+  themeConfig: {
+    logo: '/home_logo', // 网页顶端导航栏左上角的图标
+    
+    // 顶部导航栏
+    nav: [
+    	// 格式一：直接跳转， '/' 为不添加路由，跳转至首页
+    	{ text: '首页', link: '/'},
+      
+      // 格式二：添加下拉菜单，link 指向的文件路径
+      {
+        text: '分类', // 默认显示
+        ariaLabel: '分类', // 用于识别的 label
+        item: [
+          { text: '文章', link: '/pages/folder1/test1.md'},
+          // 点击标签会跳转至 link 的 markdown 文件生成的页面
+          { text: '琐碎', link: '/pages/folder1/test4.md'},
+        ]
+      },
+  		{ text: '功能演示', link: '/pages/folder1/test3.md'},
+      
+      // 格式三：跳转至外部网页，需 http/https 前缀
+  		{ text: 'Github', link: 'https://github.com/KurjaScript'},
+    ],
+    
+    // 侧边导航栏：会根据当前的文件路径是否匹配侧边栏数据，自动显示/隐藏
+    sidebar: {
+      '/pages/folder1/': [
+        {
+          title: '测试菜单1', // 一级菜单名称
+          collapsable: false, // false 为默认展示菜单，默认值 true 是折叠
+          sidebarDepth: 1, // 设置侧边导航自动提取 markdown 文件标题的层级，默认 1 为 h2 层级
+          children: [
+            ['test1.md', '子菜单1'], // 菜单名称为 '子菜单1'，跳转至 /pages/folder1/test1.md
+            ['test3.md', '子菜单2']
+          ]
+        },
+        {
+          title: '测试菜单2',
+          collapse: false,
+          children: [
+            ['test2.md', '子菜单1']
+          ]
+        }
+      ],
+      
+      // ...可添加多个不同的侧边栏，不同页面会根据路径显示不同的侧边栏
+    }
+  }
+}
+```
+
+此时我们的网页首页应该是这个样子。其他页面还无法跳转，因为此处点击菜单跳转时，页面对应的 markdown 文件为空，会跳转至 404 页面。而侧边栏则会自动匹配当前页面路径，**若侧边栏数据存在当前页面路径，则显示不出来，路径匹配不到则隐藏侧边栏，这也是它可以不同页面匹配不同的侧边栏的原因**。
+
+![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lhlt7ajzj21a30memz4-20220727162403441.jpg)
