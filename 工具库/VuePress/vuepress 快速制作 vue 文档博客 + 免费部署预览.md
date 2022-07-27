@@ -96,3 +96,31 @@ module.exports = {
 
 ![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lbaisus9j20lv062wep.jpg)
 
+#### 3.2 设置首页内容
+
+接下来我们来设置首页的内容，按照官网给的格式修改 `README.md` 文件，填写如下内容
+
+```yaml
+---
+home: true
+heroImage: /home_logo.jpeg
+heroText: 云柱的前端记录
+tagline: 一点一滴都是进步
+actionText: 马上进入 →
+actionLink: /pages/folder1/test1.md
+features:
+- title: 简洁至上
+  details: 以 Markdown 为中心的项目结构，以最少的配置帮助你专注于写作。
+- title: Vue驱动
+  details: 享受 Vue + webpack 的开发体验，在 Markdown 中使用 Vue 组件，同时可以使用 Vue 来开发自定义主题。
+- title: 高性能
+  details: VuePress 为每个页面预渲染生成静态的 HTML，同时在页面被加载的时候，将作为 SPA 运行。
+---
+```
+
+> herolmage 的地址配置第一个 '/' 默认指向的是 `docs/.vuepress/public`， 你需要在此文件夹放置你的首页图片。
+>
+> actionLink 地址配置第一个 '/' 默认指向的是 docs/，若路径文件不存在，点击进去会跳转至 404.文件路径之后会详细讲解。
+
+上面每个你都可以对照下面的图片进行查看，都是一一对应的，此时再重新运行 `yarn dev`, 网页如下图所示。![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lchypf8tj21a10meabv-20220727150553640.jpg)
+
