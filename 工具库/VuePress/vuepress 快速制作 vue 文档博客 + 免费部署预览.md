@@ -228,3 +228,47 @@ https://www.jianshu.com/p/f03ff4f3a8b3
 ![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4lo4iycijj21a80gy3zq.jpg)
 
 文档梳理完后，我们之后每次只需要修改 `config.js` 文件中的导航栏和侧边栏，确保每个路径对应的位置都存在相对应的文件，我们就可以专注在 markdown 文档的编辑中了。
+
+### 一键部署至 Github Pages
+
+按照[官方部署教程](https://vuepress.vuejs.org/zh/guide/deploy.html#github-pages)，我们需要修改一开始创建的 `deploy.sh` 文件。**该文件的作用是用于批量执行我们的打包、上传至仓库等命令。**而`.sh` 格式是脚本文件。
+
+```bash
+# 确保脚本抛出遇到的错误
+set -e
+
+# 打包生成静态文件
+yarn build
+
+# 进入打包好的文件夹
+cd docs/.vuepress/dist
+
+# 创建 git 的本地仓库，提交修改
+git init
+git add -A
+git commit -m "deploy"
+
+# 覆盖式地将本地仓库发布到 Github，因为发布不需要保留历史记录
+# 格式为：git push -f git@github.com:'用户名'/'仓库名'.git master
+git push -f git@github.com:KurjaScript/KurjaScript.github.io.git master
+
+cd -
+```
+
+**注：第一次部署，不明白为什么新建仓库名一定要命名为`KurjaScript.github.io`**
+
+然后修改 `package.json`，在里面添加一条执行脚本文件的命令
+
+```json
+"script": {
+  ......
+  "deploy": "bash deploy.sh"
+},
+// bash 就是用来执行文件的命令，如果报错显示没有此命令，请安装 git-bash 使用，或改成"satrt deploy.sh"
+```
+
+之后每次执行的时候，只需要运行 `yarn deploy`
+
+就可完成打包、上传操作，Github 会为我们自动更新页面代理。一般推送成功后需要等待一两分钟，你再打开 `https://kurjascript.github.io`，就可以看到你的文档/博客页面了。在整个项目的结构结构调整后，只需要编辑一丢丢，即可实现编辑文档+维护，真是很方便呢！
+
+![](/Users/Kurja/Desktop/Typora/%E5%B7%A5%E5%85%B7%E5%BA%93/VuePress/e6c9d24egy1h4mi6t5v0ij21h10q676u.jpg)
