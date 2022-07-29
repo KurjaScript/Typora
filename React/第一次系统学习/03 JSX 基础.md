@@ -95,3 +95,63 @@ function App() {
 export default App
 ```
 
+### 5. JSX 样式处理
+
+**目标任务：**能在 JSX 中实现 css 样式处理
+
+- 行内样式 -style
+
+  ```jsx
+  function App() {
+    return (
+    	<div className="App">
+      	<div style={{ color: 'red' }}>this is a div</div>
+      </div>
+    )
+  }
+  
+  export default App
+  ```
+
+- 行内样式-style-更优写法
+
+  ```jsx
+  const styleObj = {
+  	color: red
+  }
+  function App() {
+    return (
+    	<div className="App">
+      	<div style={ styleObj }>this is a div</div>
+      </div>
+    )
+  }
+  
+  export default App
+  ```
+
+- 类名 -className （推荐）
+
+  ```jsx
+  .title {
+    font-size: 30px;
+    color: blue;
+  }
+  ```
+
+- 类名 -className -动态类名控制
+
+  ```jsx
+  import './app.css'
+  const showTitle = true
+  function App() {
+    return (
+    	<div className="App">
+      	<div className={ showTitle ? 'title' : ''}>this is a div</div>
+      </div>
+    )
+  }
+  ```
+
+  
+
