@@ -34,3 +34,39 @@ const name = '云柱'
 **特别注意**
 
 > if 语句 /switch-case 语句/ 变量声明语句，这些叫做语句，不是表达式，不能出现在 `{}`中！
+
+### 3. JSX 列表渲染
+
+**目标任务：**能够在 JSX 中实现列表渲染。
+
+页面的构建离不开重复的列表结构，比如歌曲列表，商品列表等，vue 中用的是 v-for，react 通过使用数组的 `map` 方法实现。
+
+```jsx
+// 来个列表
+const songs = [
+  { id: 1, name: '云柱'},
+  { id: 2, name: '火柱'},
+  { id: 3, name: 'Kurja'}
+]
+
+function App() {
+  return (
+  	<div className="App">
+    	<ul>
+      	{ songs.map(item => <li>{item.name}</li>) }
+      </ul>
+    </div>
+  )
+}
+
+export default App
+```
+
+注意点：需要为遍历项添加 `key` 属性
+
+![](/Users/Kurja/Desktop/Typora/React/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/e6c9d24egy1h4nqy68sg6j216s04lt9h.jpg)
+
+1. key 在 HTML 结构中是看不到的，是 react 内部用来进行性能优化时使用；
+2. key 在当前列表中要唯一的字符串或者数值(String / Number);
+3. 如果列表中有像 id 这种的唯一值，就用 id 来作为 key 值；
+4. 如果列表中没有像 id 这种唯一的值，就可以使用 index （下标）来作为 key 值。
