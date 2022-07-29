@@ -14,3 +14,23 @@
 
 ![](/Users/Kurja/Desktop/Typora/React/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/e6c9d24egy1h4nn4j48k7j20ku0d4t9q.jpg)
 
+### 2. JSX 中使用 js 表达式
+
+**目标任务：**能在 JSX 中使用表达式
+
+**语法** ：`{ JS 表达式 }`
+
+```jsx
+const name = '云柱'
+<h1>你好，我叫{name}</h1> // <h1>你好，我叫云柱</h1>
+```
+
+**可以使用的表达式**：
+
+- 字符串、数值、布尔值、null、undefined、object([] / {})
+- 1 + 2、'abc'.split('')、['a', 'b'].join('-')
+- fn()
+
+**特别注意**
+
+> if 语句 /switch-case 语句/ 变量声明语句，这些叫做语句，不是表达式，不能出现在 `{}`中！
