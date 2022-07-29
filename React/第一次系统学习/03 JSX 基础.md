@@ -138,7 +138,7 @@ function App () {
   function App() {
     return (
     	<div className="App">
-      	<div style={{ color: 'red' }}>this is a div</div>
+      	<div style={{ color: 'red',fontSize: '30px' }}>this is a div</div>
       </div>
     )
   }
@@ -150,7 +150,8 @@ function App () {
 
   ```jsx
   const styleObj = {
-  	color: red
+  	color: 'red;
+    fontSize: '30px'
   }
   function App() {
     return (
