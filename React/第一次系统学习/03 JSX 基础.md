@@ -90,7 +90,8 @@ function App() {
     { /* 条件渲染字符串 */ }
     { flag ? 'react' : 'vue'}
     { /* 条件渲染标签组件 */ }
-		{ flag ? <span>this is span</span> : null}      
+		{ flag ? <span>this is span</span> : null} 
+    { flag && <span>this is span</span>}
     </div>
   )
 }
