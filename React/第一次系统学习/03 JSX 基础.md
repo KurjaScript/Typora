@@ -70,3 +70,28 @@ export default App
 2. key 在当前列表中要唯一的字符串或者数值(String / Number);
 3. 如果列表中有像 id 这种的唯一值，就用 id 来作为 key 值；
 4. 如果列表中没有像 id 这种唯一的值，就可以使用 index （下标）来作为 key 值。
+
+### 4. JSX 条件渲染
+
+**目标任务：**能够在 JSX 中实现条件渲染。
+
+作用：根据是否满足条件生成 HTML 结构，比如 Loading 效果。
+
+实现：可以使用**三元运算符**或**逻辑与(&&)运算符**
+
+```jsx
+// 来个布尔值
+const flag = true
+function App() {
+  return (
+  	<div className="App">
+    { /* 条件渲染字符串 */ }
+    { flag ? 'react' : 'vue'}
+    { /* 条件渲染标签组件 */ }
+		{ flag ? <span>this is span</span> : null}      
+    </div>
+  )
+}
+export default App
+```
+
