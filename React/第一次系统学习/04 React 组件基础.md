@@ -215,3 +215,8 @@ class Counter extends React.Component {
 }
 ```
 
+### 6. this 问题说明
+
+![](/Users/Kurja/Desktop/Typora/React/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/e6c9d24egy1h4nymen1m2j20l207ewfk.jpg)
+
+这里作为了解内容，随着 js 标准的发展，主流的写法已经变成了 class fields，无需考虑太多 this 问题。
