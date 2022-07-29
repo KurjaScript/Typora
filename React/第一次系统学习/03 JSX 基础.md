@@ -41,6 +41,8 @@ const name = '云柱'
 
 页面的构建离不开重复的列表结构，比如歌曲列表，商品列表等，vue 中用的是 v-for，react 通过使用数组的 `map` 方法实现。
 
+
+
 ```jsx
 // 来个列表
 const songs = [
@@ -53,7 +55,7 @@ function App() {
   return (
   	<div className="App">
     	<ul>
-      	{ songs.map(item => <li>{item.name}</li>) }
+      	{ songs.map(item => <li key={item.id}>{item.name}</li>) }
       </ul>
     </div>
   )
