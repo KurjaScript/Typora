@@ -139,3 +139,79 @@ function HelloFn () {
   )
 }
 ```
+
+### **5. 组件状态**
+
+**目标任务：**能够为组件添加状态和修改状态的值。
+
+一个前提：在 react hook 出来之前，函数式组件是没有自己的状态的，所以我们统一通过类组件来学习。
+
+![](/Users/Kurja/Desktop/Typora/React/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/e6c9d24egy1h4nxgnouy3j21ab0bodgt-20220729174930899.jpg)
+
+#### **5.1 初始化状态**
+
+- 通过 class 的实例属性 state 来初始化
+- state 的值是一个对象结构，表示一个组件可以有多个状态
+
+```jsx
+class Counter extends React.Component {
+ 	// 初始化状态
+ 	state = {
+  	count: 0
+	}
+ 	render() {
+  	return <button>计数器</button>
+	}
+}
+```
+
+#### 5.2 读取状态
+
+通过 `this.state`来获取状态
+
+```jsx
+class Counter extends React.Component {
+  // 初始化状态
+  state = {
+    count: 0
+  }
+  render() {
+    // 读取状态
+    return <button>计数器{this.state.count}</button>
+  }
+}
+```
+
+#### 5.3 修改状态
+
+- 语法：`this.setState({ 要修改的部分数据 })`
+
+- setState 方法的作用
+
+  a. 修改 state 中的数据状态
+
+  b. 更新 UI
+
+- 思想：数据驱动视图，也就是只需要修改数据状态，页面就会自动刷新，无需手动操作 dom
+
+- 注意事项：**不要直接修改 state 中的值，必须通过 setState 方法进行修改**
+
+```jsx
+class Counter extends React.Component {
+  // 定义数据
+  state = {
+    count: 0
+  }
+  // 定义修改数据的方法
+  setCount = () => {
+    this.setState({
+      count: this.state.count + 1
+    })
+  }
+  // 使用数据并绑定事件
+  render () {
+    return <button onClick={this.setCount}>{this.state.count}</button>
+  }
+}
+```
+
