@@ -76,3 +76,66 @@ export default App
 1. **类名称也必须以大写字母开头；**
 2. 类组件应该继承 React.Component 父类，从而使用父类中提供的方法或属性；
 3. 类组件必须提供 render 方法，**render 方法必须有返回值，表示该组件的 UI 结构。**
+
+### 4. 事件绑定
+
+**目标任务：**能独立绑定任何事件并能获取事件对象 e。
+
+##### 4.1 如何绑定事件
+
+- 语法
+
+  `on + 事件名称 = { 事件处理程序 }`，比如：`<div onClick={() => {}}></div>`
+
+- 注意点
+
+  react 事件采用驼峰命名法，比如：onMouseEnter、onFocus
+
+- 样例
+
+  ```jsx
+  // 函数组件
+  function HelloFn () {
+  	// 定义事件回调函数
+    const clickHandler = () => {
+      console.log('事件被触发了')
+    }
+    return (
+    	// 绑定事件
+      <button onClick={ clickHandler }>click me!</button>
+    )
+  }
+  
+  // 类组件
+  class HelloC  extends React.Component {
+    // 定义事件回调函数
+    clickHandler = () => {
+      console.log('事件被触发了')
+    }
+    render () {
+      return (
+      	// 绑定事件
+        <button onClick={this.clickHandler}>click me!</button>
+      )
+    }
+  }
+  ```
+
+#### 4.2 获取事件对象
+
+通过事件处理程序的参数获取事件对象 e
+
+```jsx
+// 函数组件
+function HelloFn () {
+  // 定义事件回调函数
+  const clickHandler = (e) => {
+    e.preventDefault()
+    console.log('事件被触发了', e)
+  }
+  return (
+  	// 绑定事件
+    <a href="https://www.google.com/" onClick={clickHandler}>谷歌</a>
+  )
+}
+```
