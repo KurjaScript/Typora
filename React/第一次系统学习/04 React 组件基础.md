@@ -220,3 +220,104 @@ class Counter extends React.Component {
 ![](/Users/Kurja/Desktop/Typora/React/%E7%AC%AC%E4%B8%80%E6%AC%A1%E7%B3%BB%E7%BB%9F%E5%AD%A6%E4%B9%A0/e6c9d24egy1h4nymen1m2j20l207ewfk.jpg)
 
 这里作为了解内容，随着 js 标准的发展，主流的写法已经变成了 class fields，无需考虑太多 this 问题。
+
+### 7. 表单处理
+
+**目标任务：**能够使用受控组件的方式获取文本框的值。
+
+使用 react 处理表单元素，一般有两种方式：
+
+1. 受控组件（推荐使用）
+2. 非受控组件（了解）
+
+#### 7.1 受控组件表单
+
+> 什么是受控组件？**input 框自己的状态被 React 组件状态控制**
+
+React 组件的状态的地方是在 state 中，input 表单元素也有自己的状态是在 value 中，react 将 state 与表单元素的值（value）绑定到一起，由 state 的值来控制表单元素的值，从而保证单一数据源特性。
+
+**实现步骤：**
+
+以获取文本框的值为例，受控组件的使用步骤如下：
+
+1. 在组件的 state 中声明一个组件的状态数据；
+2. 将状态数据设置为 input 标签元素的 value 属性的值；
+3. 为 input 添加 change 事件，在事件处理程序中，通过事件对象 e 获取到当前文本框的值（即用户输入的值）；
+4. 调用 setState 方法，将文本框的值作为 state 状态的最新值。
+
+```jsx
+import React from 'react'
+
+class InputComponent extends React.Component {
+  // 声明组件状态
+  state = {
+    message: 'this is message',
+  }
+  // 声明事件回调函数
+  changeHandler = (e) => {
+    this.setState({ message: e.target.value })
+  }
+  render() {
+    return (
+    	<div>
+      	{/* 绑定 value 绑定事件 */}
+        <input value={this.state.message} onChange={this.chanegHandler} />
+      </div>
+    )
+  }
+}
+
+function App () {
+  return (
+  	<div className="App">
+    	<InputComponent></InputComponent>
+    </div>
+  )
+}
+```
+
+#### 7.2 非受控组件
+
+> 什么是非受控组件？非受控组件就是通过手动操作 dom 的方式获取文本框的值，文本框的状态不受 reeact 组件的 state 中的状态控制，直接通过原生 dom 获取输入框的值。
+
+**实现步骤：**
+
+1. 导入 createRef 函数；
+2. 调用 createRef 函数，创建一个 ref 对象，存储到名为 msgRef 的实例属性中；
+3. 为 input 添加 ref 属性，值为 msgRef；
+4. 在按钮的事件处理程序中，通过 `msgRef.current` 即可拿到 input 对应的 dom 元素，而其中 `msgRef.current.value` 拿到的就是文本框的值。
+
+```jsx
+import React, { createRef } from 'react'
+
+class InputComponent extends React.Component {
+  // 使用 createRef 产生一个存放 dom 的对象容器
+  msgRef = createRef()
+  
+  changeHandler = () => {
+    console.log(this.msgRef.current.value)
+  }
+  
+  render() {
+    return (
+    	<div>
+      	{/* ref 绑定获取真实 dom */}
+        <input ref={this.msgRef} />
+        <button onClick={this.changeHandler}>click</button>
+      </div>
+    )
+  }
+}
+
+function App () {
+  return (
+  	<div className="App">
+    	<InputComponen />
+    </div>
+  )
+}
+
+export 
+```
+
+ 
