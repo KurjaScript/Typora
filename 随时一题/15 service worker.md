@@ -65,3 +65,11 @@ this.addEventListener('fetch', function(event) {
 ```
 
 以上是一个最简单的使用例子，更多内部 api 请查看 [mdn service worker](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API) 
+
+### 4. 注意事项
+
+- Service worker 运行在 worker 上下文 --> 不能访问 DOM
+- 它设计为完全异步，同步 API（如 XHR 和 localStorage）不能在 service worker 中使用
+- 出于安全考量，Service workers 只能由 HTTPS 承载
+- 在 Firefox 浏览器的用户隐私模式，Service Worker 不可用
+- 其生命周期与页面无关（关联页面未关闭时，它也可以退出，没有关联页面时，它也可以启动）
