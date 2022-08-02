@@ -15,3 +15,53 @@ service worker 是浏览器和服务器的中间人角色，如果网站中注�
 - 支持推送；
 - 并且可以让开发者自己控制管理缓存的内容以及版本。
 
+### 3. 如何使用
+
+#### 1. 注册 service worker，在index.html 加入以下内容
+
+```js
+/* 判断当前浏览器是否支持 serviceWorker */
+if ('serviceWorker' in navigator) {
+  /* 当页面加载完成就创建一个 serviceWorker */
+  window.addEventListener('load', function() {
+    /* 创建并指定对应的执行内容 */
+    /* scope 参数是可选的，可以用来指定你想让 service worker 控制的内容的子目录。在这个例子里，我们制定了 '/'，表示 根网域下的所有内容。这也是默认值。 */
+    navigator.serviceWorker.register('./serviceWorker.js', {scope: './'})
+    	.then(function (registration) {
+      	console.log('ServiceWorker registration successful with scope:', registration.scope);
+    	})
+    	.catch(function (err) {
+      	console.log('ServiceWorker registration failed:', err);
+    	});
+  });
+}
+```
+
+#### 2. 安装 worker：在我们指定的处理程序 `serviceWorker.js` 中书写对应的安装及拦截逻辑
+
+```js
+/* 监听安装事件，install 事件一般是用来设置你的浏览器的离线缓存逻辑 */
+this.addEventListener('install', function(event) {
+  /* 通过这个方法可以防止缓存未完成，就关闭 serviceWorker */
+  event.waitUntil(
+  	/* 创建一个名叫 V1 的缓存版本 */
+    caches.open('v1').then(function(cache) {
+      /* 指定要缓存的内容，地址为相对于根域名的访问路径 */
+      return cache.addAll([
+        './index.html'
+      ]);
+    })
+  );
+});
+
+/* 注册 fetch 事件，拦截全站的请求 */
+this.addEventListener('fetch', function(event) {
+  event.respondWith(
+  	// magic goes here
+    /* 缓存中匹配对应请求资源直接返回 */
+    caches.match(event.request)
+  );
+});
+```
+
+以上是一个最简单的使用例子，更多内部 api 请查看 [mdn service worker](https://developer.mozilla.org/zh-CN/docs/Web/API/Service_Worker_API) 
