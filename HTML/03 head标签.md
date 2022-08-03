@@ -91,3 +91,20 @@ Twitter 还拥有自己的类型的专有元素协议（称为：[Twitter Cards]
    <link rel="icon" href="favicon.ico" type="image/x-icon">
    ```
 
+### 5. 在 HTML 中应用 CSS 和 JavaScript
+
+如今，几乎你使用的所有网站都会使用 [CSS](https://developer.mozilla.org/zh-CN/docs/Glossary/CSS) 来让网页更加炫酷，并使用 [JavaScript](https://developer.mozilla.org/zh-CN/docs/Glossary/JavaScript) 来让网页有交互功能，比如视频播放器、地图、游戏以及更多功能。这些应用在网页中很常见，它们分别使用 [`<link>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/link) 元素以及 [`<script>`](https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/script) 元素。
+
+- `<link>` 元素经常位于文档的头部。这个 link 元素有两个属性，`rel="stylesheet"` 表明这是文档的样式表，而 `href` 包含了样式表文件的路径：
+
+  ```html
+  <link rel="stylesheet" href="my-css-file.css">
+  ```
+
+- `<script>` 元素没有必要非要放在文档的 `<head<` 中，并包含 `src` 属性来指向需要加载的 JavaScript 文件路径，同时最好加上 `defer` 以告诉浏览器在解析完成 HTML 后再加载 JavaScript。这样就可以确保在加载脚本之前浏览器已经解析了所有 HTML 的内容（如果脚本尝试访问某个不存在的元素，浏览器就会报错）。实际上还有很多方法可用于处理加载 JavaScript 的问题，但这是现代浏览器中最可靠的一种方法。
+
+  ```html
+  <script src="my-js-file.js" defer></script>
+  ```
+
+  
