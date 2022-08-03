@@ -75,3 +75,19 @@ Twitter 还拥有自己的类型的专有元素协议（称为：[Twitter Cards]
 <meta name="twitter:title" content="Mozilla Developer Network">
 ```
 
+### 4. 在你的站点增加自定义图标
+
+为进一步丰富网站的设计，可以在元数据中添加自定义图标（favicon，为“favorites”的缩写）的引用，这些将在特定的场合（浏览器的收藏，或书签列表）中显示。
+
+这个看起来不起眼的图标已经存在很多年了，16*16 像素是这种图标的第一种类型。你可以看见这些图标出现在浏览器每一个打开的标签页中以及书签页中。
+
+页面添加图标的方式有：
+
+1. 将其保存在与网站的索引页面相同的目录中，以 `.ico` 格式保存（大多数浏览器支持更通用的格式，如 `.gif` 或 `.png`，**但使用 ICO 格式将确保它能在如 Internet Explore 6 那样古老的浏览器显示**）
+
+2. 将以下行添加到 HTML 的 `<head>` 中以引用它：
+
+   ```html
+   <link rel="icon" href="favicon.ico" type="image/x-icon">
+   ```
+
