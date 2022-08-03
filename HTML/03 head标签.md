@@ -45,11 +45,33 @@ head 标签里的内容不会在页面中显示出来。head 标签包含了页�
 
 ```html
 <meta name="author" content="Chris Mills">
-<meta name="description" content="The MDN Web Docs Learning Area aims to provide
-complete beginners to the Web with all they need to know to get
+<meta name="description" content="The MDN Web Docs Learning Area aims to provide complete beginners to the Web with all they need to know to get
 started with developing web sites and applications.">
 ```
 
 指定作者在某些情况下是很有用的：如果你需要联系页面的作者，问一些关于页面内容的问题。一些内容管理系统能够自动获取页面作者的信息，然后用于某些用途。
 
 指定包含关于页面内容的关键字的页面内容的描述是很有用的，因为它可能或让你的页面在搜索引擎的相关的搜索出现得更多（这些行为在术语上被称为：**搜索引擎优化，或 SEO。**）
+
+#### 3.3 其他类型的元数据
+
+当你在网站上查看源码时，你也会发现其它类型的元数据。你在网站上看到的许多功能都是专有创作，旨在向某些网站（如社交网站）提供可使用的特定信息。
+
+例如，Facebook 编写的元数据协议 [Open Graph Data](https://ogp.me/) 为网站提供了更丰富的元数据。在 MDN Web 文档源代码中，你会发现：
+
+```html
+<meta property="og:image" content="https://developer.mozilla.org/static/img/opengraph-logo.png">
+<meta property="og:description" content="The Mozilla Developer Network (MDN) provides information about Open Web technologies including HTML, CSS, and APIs for both Web sites and HTML5 Apps. It also documents Mozilla products, like Firefox OS.">
+<meta property="og:title" content="Mozilla Developer Network">
+```
+
+上面代码展示的一个效果就是，当你在 Facebook 上链接到 MDN 时，该链接将显示一个图像和描述：这为用户提供更丰富的体验。
+
+![](/Users/Kurja/Desktop/Typora/HTML/e6c9d24egy1h4tk0d8k5hj20dq0almxp.jpg)
+
+Twitter 还拥有自己的类型的专有元素协议（称为：[Twitter Cards](https://developer.twitter.com/en/docs/twitter-for-websites/cards/overview/abouts-cards) )，当网站的 URL 显示在 twitter.com 上时，它具有相似的效果。例如下面：
+
+```html
+<meta name="twitter:title" content="Mozilla Developer Network">
+```
+
