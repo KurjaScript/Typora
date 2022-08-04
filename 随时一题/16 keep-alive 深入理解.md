@@ -40,3 +40,47 @@
 
 keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deactivated` 钩子函数。
 
+### 4. 参数理解
+
+`keep- alive` 可以接收三个属性作为参数匹配对应的组件进行缓存。
+
+- `include` 包含的组件(可以为字符串，数组，以及正则表达式,只有匹配的组件会被缓存)
+
+- `exclude` 排除的组件(以为字符串，数组，以及正则表达式,任何匹配的组件都不会被缓存)
+
+- `max` 缓存组件的最大值(类型为字符或者数字,可以控制缓存组件的个数)
+
+**注：**当使用**正则表达式**或者**数组**时，一定要使用 v-bind。
+
+```html
+<!-- 将（只）缓存组件name为a或者b的组件, 结合动态组件使用 -->
+<keep-alive include="a,b">
+  <component></component>
+</keep-alive>
+
+<!-- 组件name为c的组件不缓存(可以保留它的状态或避免重新渲染) -->
+<keep-alive exclude="c"> 
+  <component></component>
+</keep-alive>
+
+<!-- 使用正则表达式，需使用v-bind -->
+<keep-alive :include="/a|b/">
+  <component :is="view"></component>
+</keep-alive>
+
+<!-- 动态判断 -->
+<keep-alive :include="includedComponents">
+  <router-view></router-view>
+</keep-alive>
+
+<!-- 如果同时使用include,exclude,那么exclude优先于include， 下面的例子只缓存a组件 -->
+<keep-alive include="a,b" exclude="b"> 
+  <component></component>
+</keep-alive>
+
+<!-- 如果缓存的组件超过了max设定的值5，那么将删除第一个缓存的组件 -->
+<keep-alive exclude="c" max="5"> 
+  <component></component>
+</keep-alive>
+```
+
