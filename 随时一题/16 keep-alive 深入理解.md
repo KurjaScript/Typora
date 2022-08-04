@@ -21,3 +21,22 @@
 > 当组件在 `<keep-alive>` 内被切换，它的 activated 和 deactivated 这两个生命周期钩子函数会被对应执行。
 
 如果`<keep-alive>` 包裹两个组件：组件 A 和组件 B 。当第一次切换组件 A 时，组件 A 的 created 和 activated 生命周期函数会执行，这时通过点击事件改变组件 A 的文字的颜色，再切换组件 B，这时组件 A 的 deactivated 的生命周期函数会被触发；再切换回组件 A，组件 A 的 activated 生命周期函数会被触发，但是它的 created 生命周期函数不会被触发了，而且 A 组件的文字的颜色也是之前我们设置过的。
+
+### 3. 基本用法
+
+```html
+<!--被keep-alive包含的组件会被缓存-->
+<keep-alive>
+    <component><component />
+</keep-alive>
+```
+
+被`keepalive`包含的组件不会被再次初始化，也就意味着**不会重走生命周期函数**。
+
+但有时我们希望缓存的组件也能够再次被渲染，vue 也为我们解决了这个问题。创建在 `keep-alive` 中的组件，会多出两个生命周期的钩子：`activated` 与  `deactivated`。
+
+- `activated`：当 `keep-alive` 包含的组件再次渲染的时候触发；
+- `deactivated `：当 `keep-alive` 包含的组件被销毁的时候触发。
+
+keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deactivated` 钩子函数。
+
