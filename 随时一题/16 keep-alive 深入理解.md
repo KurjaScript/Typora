@@ -12,3 +12,12 @@
 
 - include：字符串或正则表达式。只有匹配的组件会被缓存。
 - exclude：字符串或正则表达式。任何匹配的组件都不会被缓存。
+
+### 2. keep-alive 的生命周期执行
+
+- 页面第一次进入，钩子的触发顺序：`created -> mounted -> activated`，退出时触发 `deactivated`，当再次进入（前进或者后退）时，只触发 `activated`
+- 事件挂载的方法等，只执行一次放在 mounted 中；组件每次进去执行的方法在 `activated` 中。
+
+> 当组件在 `<keep-alive>` 内被切换，它的 activated 和 deactivated 这两个生命周期钩子函数会被对应执行。
+
+如果`<keep-alive>` 包裹两个组件：组件 A 和组件 B 。当第一次切换组件 A 时，组件 A 的 created 和 activated 生命周期函数会执行，这时通过点击事件改变组件 A 的文字的颜色，再切换组件 B，这时组件 A 的 deactivated 的生命周期函数会被触发；再切换回组件 A，组件 A 的 activated 生命周期函数会被触发，但是它的 created 生命周期函数不会被触发了，而且 A 组件的文字的颜色也是之前我们设置过的。
