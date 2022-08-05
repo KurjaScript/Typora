@@ -84,3 +84,15 @@ keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deact
 </keep-alive>
 ```
 
+### 5. 遇见 `vue-router` 结合 `router` 使用，缓存部分页面
+
+#### 5.1 所有路径下的视图组件都会被缓存
+
+```html
+<keep-alive>
+	<router-view>
+  	<!-- 所有路径匹配到的视图组件都会被缓存 -->
+  </router-view>
+</keep-alive>
+```
+
