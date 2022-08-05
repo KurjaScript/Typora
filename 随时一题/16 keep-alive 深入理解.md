@@ -149,13 +149,13 @@ keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deact
 
 **【加盐】 使用 router.meta 拓展**
 
-假设这里有三个路由：A、B、C。
+**场景一：**假设这里有三个路由：A、B、C。
 
 - 需求：
 
   1. 默认显示 A；
   2. B 跳转到 A，A 不刷新；
-  3. C 挑战到 A，A 刷新。
+  3. C 跳转到 A，A 刷新。
 
 - 实现步骤：
 
@@ -204,6 +204,96 @@ keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deact
      ```
 
   这样，便实现 B 回到 A，A 不刷新；而 C 回到 A，A 刷新。
+
+**场景二：实现前进刷新，后退不刷新。**
+
+这里模拟三个界面 `loign` 到 `server` 到 `main`。首先给这三个界面的路由的 `path` 设置严格的层级关系，并设置 `keepAlive` 都是 `true`，默认都需要缓存。
+
+```js
+const router = new Router({
+	routes: [
+    {
+      path: '/',
+      redirect: '/login'
+    },
+    {
+      path: '/login',
+      component: Login,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path:'/login/server',
+      component: ServerList,
+      meta: {
+        keepAlive: true
+      }
+    },
+    {
+      path: '/login/server/main',
+      component: Main,
+      meta: {
+        keepAlive: true
+      }
+    }
+  ]
+})
+```
+
+由于这三个界面 path 的层级不同，我们就能通过 `beforeEach` 这个钩子判断出什么时候是后退了。在后退时将 `from` 路由的 `keepAlive` 设置为 `false`，`to` 路由的 `keepAlive` 设置为 `true`。
+
+```js
+router.beforeEach((to, from, next) => {
+  const toDepth = to.path.split('/').length
+  const fromDepth = from.path.split('/').length
+  if (toDepth < fromDepth) {
+    console.log('后退')
+    from.meta.keepAlive = false
+    to.meta.keepAlive = true
+  }
+  next()
+})
+```
+
+最后需要缓存的界面用 `keep-alive` 包起来，就能实现前进时刷新，后退时不刷新的效果了。
+
+```html
+<keep-alive>
+	<router-view v-if="$router.meta.keepAlive">
+  	<!-- 这里是会被缓存的视图组件 -->
+  </router-view>
+</keep-alive>
+<router-view v-if="$router.meta.keepAlive">
+	<!-- 这里是不被缓存的视图组件 -->
+</router-view>
+```
+
+**补充说明：**
+
+这个方法很取巧，因为单纯从 length 判断会有很多场景问题。比如有一个 `page5` 界面，我需要能从 `page3` 和 `page4` 界面都能跳转过去的话，那就需要为 `page5` 配置两个路由 `path` 了，那就需要为 `page5` 配置两个路由 `path` 了，假设 `page` 几的 `path` 层级就是几的话，那么就要为 `page5` 配置层级4和层级5的两个路由路径了(当然直接就配置一个路由层级5的话也是可行的，只需要保证比跳转到它的界面的层级都大就可以)。
+
+另外，可以把 `keepAlive` 换成 `noKeepAlive`，这样的话就不用在每个 `router` 中去配置 `keepAlive` 了，就方便很多。关于层级也可以不通过 `/` 来判断，比如在 `path` 末尾加数字等其它方式来实现。
+
+另外，还有**压栈**的方式，但是在有 `tab` 界面的时候这种方式就不适合了，因为 `tab` 界面切换的时候不需要这种效果，但也会被压栈。但是用以下方法可以把 `tab` 界面的路由都设置为同一个层级，就不会有问题了。
+
+```js
+let routerList = []
+router.beforeEach((to, from, next) => {
+  if (routerList.length && routerList.indexOf(to.name) === routerList.length - 1) {
+      // 后退
+      routerList.splice(routerList.length - 1, 1)
+      to.meta.isBack = true
+    } else {
+      // 前进
+      routerList.push(from.name || '/')
+      to.meta.isBack = false
+    }
+    next()
+})
+```
+
+
 
 ### 6. 注意事项
 
