@@ -205,3 +205,9 @@ keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deact
 
   这样，便实现 B 回到 A，A 不刷新；而 C 回到 A，A 刷新。
 
+### 6. 注意事项
+
+1. `keep-alive` 先匹配被包含组件的 `name` 字段，如果 `name` 不可用，则匹配当前组件 `components` 配置中的注册名称。
+2. `keep-alive` 不会在函数式组件中正常工作，因为它们没有缓存实例。
+3. 当匹配条件同时在 `include` 与 `exclude` 存在时，**以 `exclude` 优先级最高。**
+4. 包含在 `keep-alive` 中，但符合 `exclude`，不会调用 `activated` 和 `deactivated`。
