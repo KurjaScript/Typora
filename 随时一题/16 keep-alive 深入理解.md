@@ -96,3 +96,56 @@ keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deact
 </keep-alive>
 ```
 
+#### 5.2 缓存 `router-view` 里面某个组件
+
+- 使用 `include/exclude`
+
+  > 缺点：需要知道组件的名字，项目复杂的时候，不是一个很好的选择
+
+  ```html
+  <keep-alive include="a">
+  	<router-view>
+    	<!-- 只有路径匹配到的 include 为 a 组件会被缓存 -->
+    </router-view>
+  </keep-alive>
+  ```
+
+- 使用meta 属性
+
+  > 优点：不需要列举出需要被缓存组件的名字，使用 `$route.meta` 的 keepAlive 属性
+
+  ```html
+  <keep-alive>
+  	<router-view v-if="$route.meta.keepAlive"></router-view>
+  </keep-alive>
+  <router-view v-if="$route.meta.keeoAlive"></router-view>
+  ```
+
+  需要在 `router` 中设置 router 的元信息 meta：
+
+  ```js
+  // ...router.js
+  export default new Router ({
+    routes: [
+      {
+        path:'/',
+        name: 'Hello',
+        component: Hello,
+        meta: {
+          keepAlive: false // 不需要缓存
+        }
+      },
+      {
+        path: '/page1',
+        name: 'Page1',
+        component: Page1,
+        meta: {
+          keepAlive: true // 需要被缓存
+        }
+      }
+    ]
+  })
+  ```
+
+  
+
