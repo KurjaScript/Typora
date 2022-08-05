@@ -118,7 +118,7 @@ keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deact
   <keep-alive>
   	<router-view v-if="$route.meta.keepAlive"></router-view>
   </keep-alive>
-  <router-view v-if="$route.meta.keeoAlive"></router-view>
+  <router-view v-if="!$route.meta.keeoAlive"></router-view>
   ```
 
   需要在 `router` 中设置 router 的元信息 meta：
