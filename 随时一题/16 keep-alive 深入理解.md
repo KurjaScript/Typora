@@ -147,5 +147,61 @@ keep-alive 缓存的组件不会被 mounted，为此提供`activated` 和 `deact
   })
   ```
 
-  
+**【加盐】 使用 router.meta 拓展**
+
+假设这里有三个路由：A、B、C。
+
+- 需求：
+
+  1. 默认显示 A；
+  2. B 跳转到 A，A 不刷新；
+  3. C 挑战到 A，A 刷新。
+
+- 实现步骤：
+
+  1. 在 A 路由里面设置 meta 属性：
+
+     ```js
+     {
+       path: '/',
+       name: 'A',
+       component: A,
+       meta: {
+       	keepAlive: true // 需要被缓存
+       }
+     }
+     ```
+
+  2. 在 B 组件里面设置 beforeRouteLeave:
+
+     ```js
+     export default {
+       data() {
+         return {};
+       }
+       methods: {},
+       beforeRouteLeave(to, from, next) {
+     		// 设置下一个路由的 meta
+       	to.meta.keepAlive = true; // 让 A 缓存，即不刷新
+       	next()
+     	}
+     }
+     ```
+
+  3. 在 C 组件里面设置 beforeRouteLeave：
+
+     ```js
+     export default {
+       data() {
+         return {};
+       },
+       methods: {},
+       beforeRouteLeave(to, from, next) {
+         // 设置下一个路由的 meta
+         to.meta.keepAlive = false; // 让 A 不缓存，即刷新
+       }
+     }
+     ```
+
+  这样，便实现 B 回到 A，A 不刷新；而 C 回到 A，A 刷新。
 
