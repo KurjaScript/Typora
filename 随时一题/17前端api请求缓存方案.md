@@ -13,7 +13,7 @@
 ```js
 const dataCache = new Map()
 
-async getWares() {
+async function getWares() {
   let key = 'wares'
   // 从 data 缓存中获取数据
   let data = dataCache.get(key)
@@ -43,5 +43,32 @@ async getWares() {
 getWares().then(...)
 // 第二次调用，取得先前的data
 getWares().then(...)
+```
+
+### 方案二：promise 缓存
+
+方案一本身是不足的。因为如果考虑同时两个以上的调用此 api，会因为请求未返回而进行第二次请求 api。当然，如果你在系统中添加类似于 vuex、redux 这样单一数据源框架，这样的问题不太会遇到，但是有时候我们想在各个复杂组件分别调用 api，而不想对组件进行数据通信的时候，便会遇到此场景。
+
+```js
+const promiseCache = new Map()
+
+getWares() {
+  const key = 'wares'
+  let promise = promiseCache.get(key)
+  // 当前 promise 缓存中没有该 promise
+  if (!promise) {
+    promise = request.get('/getWares').then(res => {
+      // 对 res 进行操作
+      ...
+    }).catch(error => {
+      // 在请求回来后，如果出现问题，把 promise 从 cache 中删除，以避免第二次请求继续出错
+      promiseCache.delete(key)
+      return Promise.reject(error)
+    })
+    promiseCache.set(key, promise)
+  }
+  // 返回 promise
+  return promise
+}
 ```
 
