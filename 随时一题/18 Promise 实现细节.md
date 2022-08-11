@@ -28,3 +28,9 @@ JS 是单线程，但是一些高耗时操作会带来进程阻塞问题。为�
 *![](/Users/Kurja/Desktop/Typora/%E9%9A%8F%E6%97%B6%E4%B8%80%E9%A2%98/e6c9d24egy1h52ww9o9d0j20dn0ep3yy.jpg)**
 
 因为首次执行宏任务队列会有 script（整体代码块）任务，所以实际上就是 JS 解析完成后，在异步任务中，会先执行完所有的微任务，这也是很多面试题喜欢考察的。需要注意的是，**新创建的微任务会立即进入微任务队列排队执行，不需要等待下一次轮巡。**
+
+#### 1.3 什么是 Promise A+ 规范
+
+目前我们使用的 Promise 是基于 [Promise A+ 规范](https://promisesaplus.com/) 实现的。
+
+检验一份手写 Promise 靠不靠谱，通过 Promise A+ 规范自然是基本要求，这里我们可以借助 [promises-aplus-tests](https://link.juejin.cn/?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fpromises-aplus-tests) 来检测我们的代码是否符合规范，后面我会讲到如何使用它。
