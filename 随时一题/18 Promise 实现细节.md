@@ -332,3 +332,58 @@ then(onFulfilled, onRejected) {
 }
 ```
 
+#### 3.3 循环调用成功和失败回调
+
+```js
+// MyPromise.js
+
+// 更改成功后的状态
+resolve = (value) => {
+  // 只有状态是等待，才执行状态修改
+  if (this.status === PENDING) {
+    // 状态修改为成功
+    this.status = FULFILLED
+    // 保存成功之后的值
+    this.value = value
+    // === 新增 ===
+    // resolve 里面将所有成功回调拿出来执行
+    while (this.onFulfilledCallbacks.length) {
+      // Array.shift() 取出数组第一个元素，然后()调用，shift 不是纯函数，取出后，数组失去该元素，直到数组为空
+      this.onFulfilledCallbacks.shift()(value)
+    }
+  }
+}
+```
+
+```js
+// MyPromise.js
+
+// 更改失败后的状态
+reject = (reason) => {
+  // 只有状态是等待，才执行状态修改
+  if (this.status === PENDING) {
+    // 状态成功为失败
+    this.status = REJECTED;
+    // 保存失败后的原因
+    this.reason = reason;
+    // ==== 新增 ====
+    // resolve里面将所有失败的回调拿出来执行
+    while (this.onRejectedCallbacks.length) {
+      this.onRejectedCallbacks.shift()(reason)
+    }
+  }
+}
+```
+
+再来运行一下，结果如下
+
+```js
+1
+resolve success
+2
+resolve success
+3
+resolve success
+```
+
+完美！待续！！
