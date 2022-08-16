@@ -34,3 +34,227 @@ JS 是单线程，但是一些高耗时操作会带来进程阻塞问题。为�
 目前我们使用的 Promise 是基于 [Promise A+ 规范](https://promisesaplus.com/) 实现的。
 
 检验一份手写 Promise 靠不靠谱，通过 Promise A+ 规范自然是基本要求，这里我们可以借助 [promises-aplus-tests](https://link.juejin.cn/?target=https%3A%2F%2Fwww.npmjs.com%2Fpackage%2Fpromises-aplus-tests) 来检测我们的代码是否符合规范，后面我会讲到如何使用它。
+
+
+
+### 2. Promise 核心逻辑实现
+
+我们先简单实现一下 Promise 的基础功能。先看原生 Promise 实现的例子，第一步我们要完成相同的功能。
+
+原生的例子：
+
+```js
+const promise = new Promise((resolve, reject) => {
+	resolve('success')
+	reject('err')
+})
+promise.then(value => {
+  console.log('resolve', value)
+}，reason => {
+	console.log('reject',reason)
+}）
+// 输出 resolve success
+```
+
+我们先分析一下**基本原理**：
+
+> 1. Promise 是一个类，在执行这个类的时候会传入一个执行器，这个执行器会立即执行；
+> 2. Promise 会有三种状态
+>    - Pending 等待
+>    - Fulfilled 完成
+>    - Rejected 失败
+> 3. 状态只能由 Pending --> Fullfilled 或者 Pending --> Rejected，**且一旦发生改变不可二次修改**；
+> 4. Promise 中使用 resolve 和 rejected 两个函数来更改状态；
+> 5. then 方法内部做但事情就是状态判断
+>    - 如果状态是成功，调用成功回调函数
+>    - 如果状态是失败，调用失败回调函数
+
+下面开始实现：
+
+#### 2.1 新建 MyPromise 类，传入执行器 execytor
+
+```js
+// 新建 MyPromise.js
+
+// 新建 MyPromise 类
+class MyPromise (
+	constructor(executor) {
+		// executor 是一个执行器，进入会立即执行
+		executor()
+	}
+)
+```
+
+#### 2.2 excutor 传入 resolve 和 reject 方法
+
+```js 
+// MyPromise.js
+
+// 新建 MyPromise 类
+class MyPromise {
+  constructor(executor) {
+    // executor 是一个执行器，进入会立即执行
+    // 并传入 resolve 和 reject 方法
+    executor(this.resolve, this.reject)
+  }
+  // resolve 和 reject 为什么要用箭头函数？
+  // 如果直接调用的话，普通函数 this 指向的是 window 或者 undefined
+  // 用箭头函数就可以让 this 指向当前实例对象
+  // 更改成功后的状态
+  resolve = () => {}
+  // 更改失败后的状态
+  reject = () => {}
+}
+```
+
+#### 2.3 状态与结果的管理
+
+```js
+// MyPromise.js
+
+// 先定义三个常量表示状态
+const PENFING = 'pending'
+const FULFILLED = 'fulfilled'
+const REJECTED = 'rejected'
+
+// 新建 MyPromise 类
+class MyPromise {
+  constructor(executor) {
+    // executor 是一个执行器，进入会立即执行
+    // 并传入 resolve 和 reject 方法
+    executor(this.resolve, this.reject)
+  }
+  
+  // 储存状态的变量，初始值是 pending
+  status = PENDING
+  
+  // resolve 为什么要用箭头函数？
+  // 如果直接调用的话，普通函数 this 指向的是 window 或者 undefined
+  // 用箭头函数就可以让 this 指向当前实例对象
+  // 成功之后的值
+  value = null;
+  // 失败之后的原因
+  reason = null
+  
+  // 更改成功后的状态
+  resolve = (value) => {
+    if (this.status === PENDING) {
+      // 状态修改为成功
+      this.status = FULFILLED
+      // 保存成功之后的值
+      this.value = value
+    }
+  }
+  
+  // 更改失败后的状态
+  reject = (reason) => {
+    // 只有状态是等待，才执行状态修改
+    if (this.status === PENDING) {
+      // 状态修改为失败
+      this.status = REJECTED
+      // 保存失败的原因
+      this.reason = reason
+    }
+  }
+}
+```
+
+#### 2.4 then 的简单实现
+
+```js
+// MyPromise.js
+
+then(onFulfilled, onRejected) {
+  // 判断状态
+  if (this.status === FULFILLED) {
+    // 调用成功回调，并且把值返回
+    onFulfilled(this.value)
+  } else if (this.status === REJECTED) {
+    // 调用失败回调，并且把原因返回
+    onRejected(this.reason)
+  }
+}
+```
+
+#### 2.5 使用 module.exports 对外暴露 MyPromise 类
+
+```js
+// MyPromise.js
+module.exports = MyPromsie
+```
+
+看一下完整代码：
+
+```js
+// MyPromsie.js
+
+// 先定义三个常量表示状态
+const PENFING = 'pending'
+const FULFILLED = 'fulfilled'
+const REJECTED = 'rejected'
+
+// 新建 MyPromise 类
+class MyPromsie {
+  constructor(executor) {
+    executor(this.resolve, this.reject)
+  }
+  status = PENDING
+  // 成功之后的值
+  value = null
+  // 失败之后的原因
+  reason = null
+  
+  // 更改成功后的状态
+  resolve = (value) => {
+    // 只有状态是等待，才执行状态修改
+    if (this.status === PENDING) {
+      this.status = FULFILLED
+      this.value = value
+    }
+  }
+  
+  // 更改失败后的状态
+  reject = (reason) => {
+    // 只有状态是等待，才执行状态修改
+    if (this.status === PENDING) {
+      this.status = REJECTED
+      this.reason = reason
+    }
+  }
+  
+  then(onFulfilled, onRejected) {
+    // 判断状态
+    if (this.status === FULFILLED) {
+      // 调用成功回调，并且把值返回
+      onFulfilled(this.value)
+    } else if (this.status === REJECTED) {
+      // 调用失败回调，并把原因返回
+      onRejected(this.reason)
+    }
+  }
+}
+
+module.exports = MyPromise
+```
+
+使用手写代码执行上面的那个例子
+
+```js
+// 引入 MyPromise.js
+// import MyPromise from './MyPromise'
+const MyPromise = require('./MyPromise.js')
+debugger
+const promise = new MyPromise((resolve, reject) => {
+  resolve('success')
+  reject('err')
+})
+
+promise.then(value => {
+  console.log('resolve', value)
+}, reason => {
+  console.log('reject', reason)
+})
+
+// 执行结果：resolve success
+```
+
