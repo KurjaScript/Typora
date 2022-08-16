@@ -309,3 +309,26 @@ onFulfilledCallbacks = []
 onRejectedCallbacks = []
 ```
 
+#### 3.2 回调函数存入数组中
+
+```js
+// MyPromise.js
+
+then(onFulfilled, onRejected) {
+  // 判断状态
+  if (this.status === FULFILLED) {
+    // 调用成功回调，并且把值返回
+    onFulfilled(this.value);
+  } else if (this.status === REJECTED) {
+    // 调用失败回调，并且把原因返回
+    onRejected(this.reason);
+  } else if (this.status === PENDING) {
+    // ==== 新增 ====
+    // 因为不知道后面状态的变化，这里先将成功回调和失败回调存储起来
+    // 等待后续调用
+    this.onFulfilledCallbacks.push(onFulfilled);
+    this.onRejectedCallbacks.push(onRejected);
+  }
+}
+```
+
