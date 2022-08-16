@@ -258,3 +258,54 @@ promise.then(value => {
 // 执行结果：resolve success
 ```
 
+### 3. 实现 then 方法多次调用添加多个处理函数
+
+> Promise 的 then 方法是可以被多次调用的。这里如果有三个 then 的调用，如果是同步回调，那么直接返回当前的值就行；如果是异步回调，那么保存的成功失败的回调，需要用不同的值保存，因为都互不相同。之前的代码需要改进。
+
+同样地，先看一个例子：
+
+```js
+// test.js
+
+const MyPromise = require('./MyPromise')
+const promise = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('success')
+  }, 2000); 
+})
+
+promise.then(value => {
+  console.log(1)
+  console.log('resolve', value)
+})
+ 
+promise.then(value => {
+  console.log(2)
+  console.log('resolve', value)
+})
+
+promise.then(value => {
+  console.log(3)
+  console.log('resolve', value)
+})
+
+// 3
+// resolve success
+```
+
+目前的代码只能输出：`3 resolve success`，怎么可以把1、2弄丢呢！
+
+要保证所有 then 中的回调函数都可以执行，所以要继续改造。
+
+#### 3.1 MyPromsie 类中新增两个数组
+
+```js
+// MyPromise.js
+
+// 存储成功回调函数
+onFulfilledCallbacks = []
+// 储存失败回调函数
+// onRejectedCallback = null
+onRejectedCallbacks = []
+```
+
