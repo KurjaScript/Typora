@@ -289,7 +289,7 @@ promise.then(value => {
 
 >  主线程代码立即执行，setTimeout 是异步代码，then 会马上执行，这个时候判断 Promise 状态，状态是 Pending，然而之前并没有判断等待这个状态。
 
-### 3.1 缓存成功与失败回调
+#### 3.1 缓存成功与失败回调
 
 ```js
 // MyPromise.js
@@ -299,6 +299,29 @@ promise.then(value => {
 onFulfilledCallback = null
 // 存储失败回调函数
 onRejectedCallback = null
+```
+
+#### 3.2 then 方法中的 Pending 的处理
+
+```js
+// MyPromise.js
+
+then(onFulfilled, onRejected) {
+  // 判断状态
+  if (this.status === FULFILLED) {
+    // 调用成功回调，并且把值返回
+    onFulfilled(this.value);
+  } else if (this.status === REJECTED) {
+    // 调用失败回调，并且把原因返回
+    onRejected(this.reason);
+  } else if (this.status === PENDING) {
+    // ==== 新增 ====
+    // 因为不知道后面状态的变化情况，所以将成功回调和失败回调存储起来
+    // 等到执行成功失败函数的时候再传递
+    this.onFulfilledCallback = onFulfilled;
+    this.onRejectedCallback = onRejected;
+  }
+}
 ```
 
 
