@@ -289,7 +289,17 @@ promise.then(value => {
 
 >  主线程代码立即执行，setTimeout 是异步代码，then 会马上执行，这个时候判断 Promise 状态，状态是 Pending，然而之前并没有判断等待这个状态。
 
+### 3.1 缓存成功与失败回调
 
+```js
+// MyPromise.js
+
+// MyPromise 类中新增
+// 存储成功回调函数
+onFulfilledCallback = null
+// 存储失败回调函数
+onRejectedCallback = null
+```
 
 
 
