@@ -324,7 +324,66 @@ then(onFulfilled, onRejected) {
 }
 ```
 
+#### 3.3 resolve 与 reject 中调用回调函数
 
+```js
+// MyPromise.js
+
+// 更改成功后的状态
+resolve = (value) => {
+  // 只有状态是等待，才执行状态修改
+  if (this.status === PENDING) {
+    // 状态修改为成功
+    this.status = FULFILLED;
+    // 保存成功之后的值
+    this.value = value;
+    // ==== 新增 ====
+    // 判断成功回调是否存在，如果存在就调用
+    this.onFulfilledCallback && this.onFulfilledCallback(value);
+  }
+}
+```
+
+```js
+// MyPromise.js
+
+// 更改失败后的状态
+reject = (reason) => {
+  // 只有状态是等待，才执行状态修改
+  if (this.status === PENDING) {
+    // 状态成功为失败
+    this.status = REJECTED;
+    // 保存失败后的原因
+    this.reason = reason;
+    // ==== 新增 ====
+    // 判断失败回调是否存在，如果存在就调用
+    this.onRejectedCallback && this.onRejectedCallback(reason)
+  }
+}
+```
+
+我们再执行一下上面的例子：
+
+```js
+// test.js
+
+const MyPromise = require('./MyPromise')
+const promise = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('success')
+  }, 2000); 
+})
+
+promise.then(value => {
+  console.log('resolve', value)
+}, reason => {
+  console.log('reject', reason)
+})
+
+// 等待 2s 输出 resolve success
+```
+
+目前已经可以简单处理异步问题了。
 
 ### 4. 实现 then 方法多次调用添加多个处理函数
 
