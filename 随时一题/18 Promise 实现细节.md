@@ -258,7 +258,42 @@ promise.then(value => {
 // 执行结果：resolve success
 ```
 
-### 3. 实现 then 方法多次调用添加多个处理函数
+执行结果符合预期，第一步就完成了。
+
+
+
+### 3. 在 Promise 类中加入异步逻辑
+
+上面还没有经过异步处理，如果有异步逻辑加入会带来一些问题，例如：
+
+```js
+// test.js
+
+const MyPromise = require('./MyPromise')
+const promise = new MyPromise((resolve, reject) => {
+  setTimeout(() => {
+    resolve('success')
+  }, 2000)
+})
+
+promise.then(value => {
+  console.log('resolve',value)
+}, reason => {
+  console.log('reject', reason)
+})
+
+// 没有打印信息
+```
+
+分析原因：
+
+>  主线程代码立即执行，setTimeout 是异步代码，then 会马上执行，这个时候判断 Promise 状态，状态是 Pending，然而之前并没有判断等待这个状态。
+
+
+
+
+
+### 4. 实现 then 方法多次调用添加多个处理函数
 
 > Promise 的 then 方法是可以被多次调用的。这里如果有三个 then 的调用，如果是同步回调，那么直接返回当前的值就行；如果是异步回调，那么保存的成功失败的回调，需要用不同的值保存，因为都互不相同。之前的代码需要改进。
 
@@ -297,7 +332,7 @@ promise.then(value => {
 
 要保证所有 then 中的回调函数都可以执行，所以要继续改造。
 
-#### 3.1 MyPromsie 类中新增两个数组
+#### 4.1 MyPromsie 类中新增两个数组
 
 ```js
 // MyPromise.js
@@ -309,7 +344,7 @@ onFulfilledCallbacks = []
 onRejectedCallbacks = []
 ```
 
-#### 3.2 回调函数存入数组中
+#### 4.2 回调函数存入数组中
 
 ```js
 // MyPromise.js
@@ -332,7 +367,7 @@ then(onFulfilled, onRejected) {
 }
 ```
 
-#### 3.3 循环调用成功和失败回调
+#### 4.3 循环调用成功和失败回调
 
 ```js
 // MyPromise.js
