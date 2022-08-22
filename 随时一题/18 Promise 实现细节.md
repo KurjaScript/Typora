@@ -385,6 +385,8 @@ promise.then(value => {
 
 目前已经可以简单处理异步问题了。
 
+
+
 ### 4. 实现 then 方法多次调用添加多个处理函数
 
 > Promise 的 then 方法是可以被多次调用的。这里如果有三个 then 的调用，如果是同步回调，那么直接返回当前的值就行；如果是异步回调，那么保存的成功失败的回调，需要用不同的值保存，因为都互不相同。之前的代码需要改进。
@@ -514,3 +516,91 @@ resolve success
 ```
 
 完美！待续！！
+
+
+
+#### 5. 实现 then 方法的链式调用
+
+> then 方法要链式调用，就需要返回一个 Promise 对象
+>
+> then 方法里面 return 一个返回值作为下一个 then 方法的参数，如果 return 一个 Promise 对象，那么就需要判断它的状态。
+
+举个例子
+
+```js
+// test.js
+
+const MyPromise = require('./MyPromise')
+const promise = new MyPromise((resolve, reject) => {
+  // 目前这里只处理同步的问题
+  resolve('success')
+})
+
+function other () {
+  return new MyPromise((resolve, reject) =>{
+    resolve('other')
+  })
+}
+promise.then(value => {
+  console.log(1)
+  console.log('resolve', value)
+  return other()
+}).then(value => {
+  console.log(2)
+  console.log('resolve', value)
+})
+```
+
+用目前的手写代码运行的时候会报错，无法链式调用。
+
+```js
+}).then(value => {
+  ^
+
+TypeError: Cannot read property 'then' of undefined
+```
+
+
+
+### 6. then 方法链式调用识别 Promise 是否返回自己
+
+> 如果 then 方法返回的是自己的 Promise 对象，则会发生循环调用，这个时候程序会报错
+
+例如下面这种情况
+
+```js
+// test.js
+
+const promise = new Promise((resolve, reject) => {
+	resolve(100)
+})
+const p1 = promise.then(value => {
+  console.log(value)
+  return p1
+})
+```
+
+使用原生 Promise 执行这个代码，会报类型错误
+
+```js
+100
+Uncaught (in promise) TypeError: Chaining cycle detected for promise #<Promise>
+```
+
+我们在 MyPromise 实现一下
+
+```js
+// MyPromise.js
+
+class MyPromise {
+  ......
+  then(onFulfilled, onRejected) {
+    const promise2 = new MyPromise((resolve, reject) => {
+      if (this.status === FULFILLED){
+        const x = onFul
+      }
+    })
+  }
+}
+```
+
