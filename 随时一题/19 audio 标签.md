@@ -135,3 +135,12 @@ onMounted(() => {
 - `2`：`NETWORK_LOADING`，浏览器正在加载
 - `3`：`NETWORK_NO_SOURCE`，未找到音频资源
 
+##### 3.3.5 error
+
+通常正常加载音频，则返回`null`，若加载过程中发生错误，浏览器将会返回`MediaError`对象。`MediaError`对象包括`code`和`message`属性，`message`为错误描述信息，`code`为如下错误码。
+
+- `1`：`MEDIA_ERR_ABORTED`，音频加载加载过程中由于用户操作而被终止
+- `2`：`MEDIA_ERR_NETWORK`，确认音频资源可用，但是加载时出现网路错误，音频加载被终止
+- `3`：`MEDIA_ERR_DECODE`，确认音频资源可用，但是解码发生错误
+- `4`：`MEDIA_ERR_SRC_NOT_SUPPORTED`，音频格式不被支持或者资源不可用
+
