@@ -1,4 +1,4 @@
-## HTML5 之 Audio 标签
+HTML5 之 Audio 标签
 
 ### 1. 标签属性
 
@@ -125,4 +125,13 @@ onMounted(() => {
 ##### 3.3.3 seekable
 
 表示用户可跳转或移动的音频范围，返回 `TimeRanges` 对象，若音频已完全加载则 `seekable.length` 为`1`，`seekable.start(0)` 为 `0` ，`seekable.end(0)`为音频时长。音频未加载或者加载错误，则`seakable.length`为`0`，对应的`start(0)`和`end(0)`也就不存在，[详细参考](https://link.juejin.cn?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fseekable)。
+
+##### 3.3.4 networkState
+
+获取音频的网络范围，[详细参考](https://link.juejin.cn?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2FnetworkState)。
+
+- `0`：`NETWORK_EMPTY`，音频尚未初始化
+- `1`：`NETWORK_IDLE`，浏览器已选择好采用什么编码格式来播放媒体，但尚未建立网络连接
+- `2`：`NETWORK_LOADING`，浏览器正在加载
+- `3`：`NETWORK_NO_SOURCE`，未找到音频资源
 
