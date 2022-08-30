@@ -121,3 +121,8 @@ onMounted(() => {
 ##### 3.3.2 buffered
 
 表示浏览器已经缓存的音频范围，返回 `TimeRanges` 对象，若音频已完全加载则 `buffered.length` 为 `1`， `buffered.start(0)` 为 `0`，即第一个缓存开始的区域，`buffered.end(0)` 为音频时长，即第一个缓存结束的区域。[详见 MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLMediaElement/buffered)
+
+##### 3.3.3 seekable
+
+表示用户可跳转或移动的音频范围，返回 `TimeRanges` 对象，若音频已完全加载则 `seekable.length` 为`1`，`seekable.start(0)` 为 `0` ，`seekable.end(0)`为音频时长。音频未加载或者加载错误，则`seakable.length`为`0`，对应的`start(0)`和`end(0)`也就不存在，[详细参考](https://link.juejin.cn?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fseekable)。
+
