@@ -118,5 +118,6 @@ onMounted(() => {
 </style>
 ```
 
-##### 
+##### 3.3.2 buffered
 
+表示浏览器已经缓存的音频范围，返回 `TimeRanges` 对象，若音频已完全加载则 `buffered.length` 为 `1`， `buffered.start(0)` 为 `0`，即第一个缓存开始的区域，`buffered.end(0)` 为音频时长，即第一个缓存结束的区域。[详见 MDN 文档](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLMediaElement/buffered)
