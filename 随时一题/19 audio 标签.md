@@ -144,3 +144,55 @@ onMounted(() => {
 - `3`：`MEDIA_ERR_DECODE`，确认音频资源可用，但是解码发生错误
 - `4`：`MEDIA_ERR_SRC_NOT_SUPPORTED`，音频格式不被支持或者资源不可用
 
+
+
+### 4. 方法
+
+#### 4.1 play
+
+播放音频，返回 `Promise`，播放成功时为 resolve，因为任何原因播放失败为 `reject`，[详见参考](https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLMediaElement/play)
+
+```ts
+let audio = document.querySelector('audio')
+audio.play()
+  .then(() => { })
+  .catch(() => { })
+```
+
+参考一个范例：视频的播放由 [`async`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Statements/async_function) `playVideo()` 函数控制。函数尝试播放视频，如果播放成功，将 `playButton` 元素的类名称设为 `"playing"`。如果播放失败，去除 `playButton` 元素的类名称，恢复其原来的样式。通过监视 `play()` 返回的 [`Promise`](https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Promise) 是被解决还是被拒绝以保证播放按钮的外观与实际的播放状态相匹配。
+
+```ts
+let videoElem = document.getElementById("video")
+let playButton = document.getElementById("playbutton")
+
+playButton.addEventListener("click", handlePlayButton, false)
+playVideo()
+
+async playVideo = () => {
+  try {
+    await videoElem.play()
+    playButton.classList.add("playing")
+  } catch (err) {
+    playButton.classList.remove("playing")
+  }
+}
+const handlePlayButton = () => {
+  if (videoElem.paused) {
+    playVideo()
+  } else {
+    videoElem.paused()
+    playButton.classList.remove("playing")
+  }
+}
+```
+
+#### 4.2 pause
+
+暂停音频，无返回值，[详细参考](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fpause)。
+
+```ts
+var audio = document.querySelector('audio')
+
+audio.pause()
+```
+
