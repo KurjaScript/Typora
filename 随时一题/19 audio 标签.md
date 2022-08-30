@@ -25,3 +25,98 @@
 </audio>
 ```
 
+
+
+### 3. 元素属性
+
+#### 3.1 只读
+
+- `duration`：双进度浮点数，音频的播放时长，以秒为单位。若音频不可用或者音频未加载，则返回 NaN；
+- `pause`：若音频被暂停或者未开始播放，则返回 `true`；
+- `ended`：音频是否播放完毕，播放完毕则返回 `true` ；
+- `error`：发生错误情况下的`MediaError`对象 ；
+- `currentSrc`：返回正在播放或加载的音频的`URL`地址，对应于浏览器在`source`元素中选择的文件；
+- `seeking`：用户是否在音频中移动或者跳跃到新的播放点
+
+```js
+<audio preload="auto" src="music.mp3" onseeking="fn()" controls />
+<script>
+  var audio = document.querySelector('audio')
+
+  function fn() {
+    console.log(audio.seeking)
+  }
+</script>
+```
+
+#### 3.2 可读写
+
+- `autoplay`：设置音频自动播放，或者查询音频是否设置 `autoplay`；
+- `loop`：设置或者查询音频是否循环播放；
+- `currentTime`：返回音频当前的播放时间点、双精度浮点数，单位为秒。音频未播放，可用于设置音频开始播放的时间点；
+- `controls`：显示或隐藏音频控制面板，或者查询控制面板是否可见；
+- `volume`：返回音量值，介于 `0-1` 之间的双进度浮点数，或者设置音量值；
+- `muted`：设置或查询是否静音；
+- `playbackRate`：设置或者查询音频的播放速度，`1` 表示正常速度，大于 `1` 表示快进，`0-1` 表示慢进，`0` 表示暂停（控制面板仍然播放，仅仅是速度为 `0`)
+
+#### 3.3 特殊属性
+
+##### 3.3.1 played
+
+表示用户已经播放的音频范围，返回 `TimeRanges` 对象，其中 `TimeRanges` 对象包括一个 `length` 属性和 `start()`、`end()` 两个方法。
+
+- `length`：获取音频范围的数量，未开始播放为 `0` ，开始播放后至少为 `1`；
+- `start(index)`：获取某个音频范围的开始位置；
+- `end(index)`：获取某个音频范围的结束位置。
+
+若用户在音频中移动或者跳跃播放点，则会获得多个音频范围。
+
+如下为一段音频，用户跳跃播放了两次，因此 `play.length` 为 `3`，其中三段音频范围分别为开始播放、第一个跳跃点、第二个跳跃点的播放范围。
+
+![在这里插入图片描述](/Users/Kurja/Desktop/Typora/%E9%9A%8F%E6%97%B6%E4%B8%80%E9%A2%98/0efed884e80e40cdb83996d7632b709a~tplv-k3u1fbpfcp-zoom-in-crop-mark:3024:0:0:0.awebp)
+
+上述部分代码如下：
+
+```html
+<template>
+  <div class="container">
+    <audio class="music" src="audio/Mr_Rattlebone.mp3" controls>因为</audio>
+    <button id="btn">console.log</button>
+  </div>
+</template>
+<script setup lang="ts">
+import { onMounted } from "vue";
+onMounted(() => {
+  let btn = document.querySelector("#btn");
+  let audio = document.querySelector("audio");
+  console.log(audio);
+  console.log(btn);
+  btn?.addEventListener("click", () => {
+    debugger;
+    const length = audio?.played.length || 1;
+    console.log(`length: ${length}`);
+    for (var i = 0; i < length; i++) {
+      let start = audio?.played.start(i) || 0;
+      let end = audio?.played.end(i) || 0;
+
+      console.log(
+        `index: ${i}, start: ${start}, end: ${end}, durations: ${end - start}s`
+      );
+    }
+  });
+});
+</script>
+<style scoped lang="less">
+.container {
+  audio {
+    border: 1px solid red;
+  }
+  #id {
+    width: 20px;
+  }
+}
+</style>
+```
+
+##### 
+
