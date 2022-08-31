@@ -221,3 +221,23 @@ audio.load()
 - [progress](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fprogress_event)：音频正在加载时触发;
 - [canplay](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fcanplay_event)：浏览器能够开始播放音频时触发;
 - [canplaythrough](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fcanplaythrough_event)：浏览器预计在不停下来进行缓冲的情况下，能够持续播放指定的音频时会触发.
+
+#### 5.2 其他事件
+
+- [abort](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fabort_event)：音频终止时触发，非错误导致；
+- [emptied](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Femptied_event)：音频加载后又被清空，如加载后又调用 load 重新加载；
+
+- [ended](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fended_event)：播放结束，若设置 `loop` 属性，音频播放结束后不会触发；
+- [error](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Ferror_event)：发生错误；
+- [play](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fplay_event)：播放事件，第一次播放、暂停后播放会触发；
+
+- [playing](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fplaying_event)：播放事件，第一次播放、暂停后播放、播放结束后循环播放会触发；
+- [pause](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fpause_event)：暂停事件；
+- [ratechange](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fratechange_event)：播放速率改变；
+- [seeking](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fratechange_event)：播放点改变开始；
+- [seeked](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fratechange_event)：播放点改变结束；
+- [stalled](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fstalled_event)：浏览器尝试获取音频，但是音频不可用时触发；
+- [suspend](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fsuspend_event)：音频加载暂停时触发；
+- [timeupdate](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Ftimeupdate_event)：音频`currentTime`改变时触发；
+- [volumechange](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fvolumechange_event)：音量改变时触发，包括静音；
+- [waiting](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fwaiting_event)：开始播放前缓冲下一帧时触发
