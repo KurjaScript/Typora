@@ -207,3 +207,17 @@ audio.src = 'music.mp3'
 audio.load()
 ```
 
+
+
+### 5. 事件
+
+#### 5.1 常用事件
+
+- [loadstart](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Floadstart_event): 开始载入音频时触发；
+- [durationchange](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fdurationchange_event)：`duration` 属性更新时出发；
+
+- [loadedmetadata](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Floadedmetadata_event)：音频元数据加载完成时触发;
+- [loadeddata](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Floadeddata_event)：音频的第一帧加载完成时触发，此时整个音频还未加载完;
+- [progress](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fprogress_event)：音频正在加载时触发;
+- [canplay](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fcanplay_event)：浏览器能够开始播放音频时触发;
+- [canplaythrough](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fcanplaythrough_event)：浏览器预计在不停下来进行缓冲的情况下，能够持续播放指定的音频时会触发.
