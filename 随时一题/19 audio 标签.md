@@ -196,3 +196,14 @@ var audio = document.querySelector('audio')
 audio.pause()
 ```
 
+#### 4.3 load
+
+重新加载 `src` 指定的资源，[详细参考](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fzh-CN%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fload)。
+
+```ts
+let audio = document.querySelector('audio')
+
+audio.src = 'music.mp3'
+audio.load()
+```
+
