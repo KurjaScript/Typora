@@ -307,3 +307,13 @@ audio.playbackRate = 1.5
 ![](/Users/Kurja/Desktop/Typora/%E9%9A%8F%E6%97%B6%E4%B8%80%E9%A2%98/e6c9d24egy1h5sg8232n1j20e2062t8y.jpg)
 
 然后，此属性兼容性不错，IE9+都支持。
+
+#### 6.4 paused
+
+`paused` 是一个只读属性，表示当前音频处于暂停状态
+
+```ts
+// true或false
+console.log(myAudio.paused)
+```
+
