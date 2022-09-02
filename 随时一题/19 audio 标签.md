@@ -241,3 +241,36 @@ audio.load()
 - [timeupdate](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Ftimeupdate_event)：音频`currentTime`改变时触发；
 - [volumechange](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fvolumechange_event)：音量改变时触发，包括静音；
 - [waiting](https://link.juejin.cn/?target=https%3A%2F%2Fdeveloper.mozilla.org%2Fen-US%2Fdocs%2FWeb%2FAPI%2FHTMLMediaElement%2Fwaiting_event)：开始播放前缓冲下一帧时触发
+
+
+
+### 6. 在 JS 中调用的 audio 属性
+
+`<audio>` 元素还有一些属性只能通过 JavaScript 设置，假如有 HTML 如下：
+
+```html
+<audio id="myAudio" src="audiofile.mp3"></audio>
+```
+
+则：
+
+#### 6.1 currentTime
+
+`currentTime` 是一个可读兼可写的属性，用来设置或获取当前已经播放的时长，单位是秒。
+
+例如：
+
+```ts
+// 获取音频已经播放时长
+let playedTime = myAudio.currentTime
+```
+
+如果音频尚未开始播放，则 `playedTime` 的返回值是 `0` 。
+
+我们也可以通过设置 `currentTime` 属性值，让我们的音频定位到我们希望的时间进行播放，例如。从 5 秒开始播放，则：
+
+```
+// 跳到 5 秒那里
+myAudio.currentTime = 5;
+```
+
