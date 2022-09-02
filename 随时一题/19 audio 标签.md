@@ -274,3 +274,15 @@ let playedTime = myAudio.currentTime
 myAudio.currentTime = 5;
 ```
 
+#### 6.2 volume
+
+`volume` 也是一个可读兼可写的属性，用来设置或获取音频的音量大小，范围是 0-1。
+
+例如，设置音量50%，则：
+
+```ts
+// 设置音量 50% 
+myAudio.volume = 0.5;
+```
+
+如果音频文件设置了 `muted` 为 `true`，则 `myAudio.volume` 的返回值是 `0`。
