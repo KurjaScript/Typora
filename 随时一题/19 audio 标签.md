@@ -271,7 +271,7 @@ let playedTime = myAudio.currentTime
 
 ```
 // 跳到 5 秒那里
-myAudio.currentTime = 5;
+myAudio.currentTime = 5
 ```
 
 #### 6.2 volume
@@ -282,7 +282,19 @@ myAudio.currentTime = 5;
 
 ```ts
 // 设置音量 50% 
-myAudio.volume = 0.5;
+myAudio.volume = 0.5
 ```
 
 如果音频文件设置了 `muted` 为 `true`，则 `myAudio.volume` 的返回值是 `0`。
+
+#### 6.3 playbackRate
+
+`playbackRate` 是一个可读兼可写的属性，用来设置或获取当前媒体文件的播放速率，值为数值，例如：
+
+```ts
+// 获得音频播放速率
+let audioSpeed = audio.playbackRate
+// 设置音频播放速率为正常速度的 1.5 倍
+audio.playbackRate = 1.5
+```
+
