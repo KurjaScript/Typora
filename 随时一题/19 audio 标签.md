@@ -298,3 +298,12 @@ let audioSpeed = audio.playbackRate
 audio.playbackRate = 1.5
 ```
 
+**速率范围**
+
+根据[文档](https://developer.mozilla.org/en-US/docs/Web/API/HTMLMediaElement/playbackRate)显示，Gecko内核浏览器速率范围是0.25到5.0，超出这个范围就静音。
+
+对于Chrome浏览器，我自己实地测试了下，速率上限居然可以到`16`，如下图：
+
+![](/Users/Kurja/Desktop/Typora/%E9%9A%8F%E6%97%B6%E4%B8%80%E9%A2%98/e6c9d24egy1h5sg8232n1j20e2062t8y.jpg)
+
+然后，此属性兼容性不错，IE9+都支持。
