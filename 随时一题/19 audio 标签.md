@@ -1,4 +1,4 @@
-HTML5 之 Audio 标签
+## HTML5 之 Audio 标签
 
 ### 1. 标签属性
 
@@ -316,4 +316,28 @@ audio.playbackRate = 1.5
 // true或false
 console.log(myAudio.paused)
 ```
+
+未播放或者播放暂停都会返回 `true`。
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
