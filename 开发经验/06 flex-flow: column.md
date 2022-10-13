@@ -1,1 +1,0 @@
-当父元素设置为 `flex-flow: column` ,justify-content 与 align-items 的功能互换。
